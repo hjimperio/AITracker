@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +20,7 @@ import { ActionItemEditComponent } from './action_item/action-item-edit/action-i
 import { ActionItemAddComponent } from './action_item/action-item-add/action-item-add.component';
 import { EmployeeAddComponent } from './employees/employee-add/employee-add.component';
 import { SharedModule } from './_modules/shared.module';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,11 @@ import { SharedModule } from './_modules/shared.module';
     FormsModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    //{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    //{provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
