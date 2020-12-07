@@ -10,6 +10,10 @@ namespace API.Entities
         public byte[] PasswordSalt { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
         public DateTime LastActive { get; set; } = DateTime.Now;
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Position { get; set; }
+        public DateTime DateHired { get; set; }
+        public string HomeAddress { get; set; }
     }
 }

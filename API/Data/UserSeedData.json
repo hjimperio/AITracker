@@ -1,12 +1,22 @@
 [
     {
-        "UserName": "sheena",
+        "UserName": "sraymundo",
         "Created": "2020-06-24",
-        "LastActive": "2020-06-21"
+        "LastActive": "2020-06-21",
+        "FirstName": "Sheena",
+        "LastName": "Raymundo",
+        "Position": "Cloud Applications Consultant",
+        "DateHired": "2014-06-24",
+        "HomeAddress": "Cavite"
     },
     {
-        "UserName": "robin",
+        "UserName": "rsombilon",
         "Created": "2020-06-25",
-        "LastActive": "2020-06-22"
+        "LastActive": "2020-06-22",
+        "FirstName": "Robin",
+        "LastName": "Sombilon",
+        "Position": "Cloud Applications Consultant",
+        "DateHired": "2016-06-24",
+        "HomeAddress": "Manila"
     }
 ]

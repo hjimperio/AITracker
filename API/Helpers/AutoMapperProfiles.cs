@@ -1,3 +1,5 @@
+using API.DTOs;
+using API.Entities;
 using AutoMapper;
 
 namespace API.Helpers
@@ -6,6 +8,7 @@ namespace API.Helpers
     {
         public AutoMapperProfiles()
         {
+            CreateMap<AppUser, EmployeeDto>();
             // CreateMap<AppUser, MemberDto>()
             //     .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => 
             //         src.Photos.FirstOrDefault(x => x.IsMain).Url))
