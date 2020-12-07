@@ -1,1 +1,5 @@
-<p>employee-list works!</p>
+<div class="row">
+    <div *ngFor="let employee of employees$ | async" class="col-2">
+        <app-employee-card [employee]="employee"></app-employee-card>
+    </div>
+</div>

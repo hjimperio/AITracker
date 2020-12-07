@@ -21,6 +21,8 @@ import { ActionItemAddComponent } from './action_item/action-item-add/action-ite
 import { EmployeeAddComponent } from './employees/employee-add/employee-add.component';
 import { SharedModule } from './_modules/shared.module';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { EmployeeCardComponent } from './employees/employee-card/employee-card.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
     EmployeeEditComponent,
     ActionItemEditComponent,
     ActionItemAddComponent,
-    EmployeeAddComponent
+    EmployeeAddComponent,
+    EmployeeCardComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,7 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    //{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     //{provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

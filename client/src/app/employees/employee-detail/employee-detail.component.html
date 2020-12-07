@@ -1,1 +1,45 @@
-<p>employee-detail works!</p>
+<div class="row" *ngIf="employee">
+    <div class="col-4">
+        <div class="card">
+            <img src="./assets/user.png" alt="{{employee.firstName}}" 
+                class="card-img-top img-thumbnail">
+            <div class="card-body">
+                <div>
+                    <strong>Location:</strong>
+                    <p>{{employee.homeAddress}}</p>
+                </div>
+                <div>
+                    <strong>Position:</strong>
+                    <p>{{employee.position}}</p>
+                </div>
+                <div>
+                    <strong>Last Active:</strong>
+                    <p>{{employee.lastActive}}</p>
+                </div>
+                <div>
+                    <strong>Employee since:</strong>
+                    <p>{{employee.dateHired}}</p>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="btn-group d-flex">
+                    <button class="btn btn-success">Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8">
+        <tabset class="member-tabset">
+            <tab heading='About {{employee.firstName}}'>
+                <h4>Description</h4>
+                <p>{{employee.firstName}} {{employee.lastName}}</p>
+                <h4>Position</h4>
+                <p>{{employee.position}}</p>
+            </tab>
+            <tab heading='Messages'>
+                <p>Messages will go here</p>
+            </tab>
+        </tabset>
+    </div>
+</div>
