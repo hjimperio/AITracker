@@ -13,6 +13,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -24,7 +25,7 @@ const routes: Routes = [
       {path: 'employees', component: EmployeeListComponent},
       {path: 'employees/:username', component: EmployeeDetailComponent},
       {path: 'employees/add', component: EmployeeAddComponent},
-      {path: 'employee/edit', component: EmployeeEditComponent},
+      {path: 'employee/edit', component: EmployeeEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'action-items', component: ActionItemListComponent},
       {path: 'action-items/:id', component: ActionItemDetailComponent},
       {path: 'action-items/add', component: ActionItemAddComponent},

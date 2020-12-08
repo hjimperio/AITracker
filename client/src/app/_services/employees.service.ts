@@ -30,4 +30,12 @@ export class EmployeesService {
     return this.http.get<Employee>(this.baseUrl + 'users/' + username);
   }
 
+  updateMember(employee: Employee) {
+    return this.http.put(this.baseUrl + 'users', employee).pipe(
+      map(() => {
+        const index = this.employees.indexOf(employee);
+        this.employees[index] = employee;
+      })
+    );
+  }
 }
