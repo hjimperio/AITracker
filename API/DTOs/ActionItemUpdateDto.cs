@@ -2,13 +2,11 @@ using System;
 
 namespace API.DTOs
 {
-    public class ActionItemDto
+    public class ActionItemUpdateDto
     {
-        public int Id { get; set; }
         public string Category { get; set; }
         public string Division { get; set; }
         public string Request { get; set; }
-        public DateTime DateCreated { get; set; }
         public string InternalEmailSubject { get; set; }
         public int AssignedToId { get; set; }
         public string WorkOrderTypeRequest { get; set; }

@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201208202436_AddActionItems")]
+    partial class AddActionItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,11 +60,11 @@ namespace API.Data.Migrations
                     b.Property<bool>("Feedback")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("InternalEmailSubject")
-                        .HasColumnType("TEXT");
+                    b.Property<bool>("InternalEmailSubject")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("MapStatus")
-                        .HasColumnType("TEXT");
+                    b.Property<bool>("MapStatus")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Notes")
                         .HasColumnType("TEXT");

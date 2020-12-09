@@ -10,6 +10,9 @@ namespace API.Helpers
         {
             CreateMap<AppUser, EmployeeDto>();
             CreateMap<EmployeeUpdateDto, AppUser>();
+            CreateMap<ActionItemAddDto, ActionItem>();
+            CreateMap<ActionItemUpdateDto, ActionItem>();
+            CreateMap<ActionItem, ActionItemDto>();
             // CreateMap<AppUser, MemberDto>()
             //     .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => 
             //         src.Photos.FirstOrDefault(x => x.IsMain).Url))
