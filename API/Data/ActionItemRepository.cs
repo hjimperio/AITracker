@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -28,11 +30,27 @@ namespace API.Data
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ActionItemDto>> GetActionItems()
+        public async Task<PagedList<ActionItemDto>> GetActionItems(ActionItemParams actionItemParams)
         {
-            return await _context.ActionItems
-                .ProjectTo<ActionItemDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            var query = _context.ActionItems.AsQueryable();
+
+            //query = query.Where(u => u.UserName != userParams.CurrentUsername);
+            query = query.Where(a => a.MapStatus == actionItemParams.MapStatus);
+            
+            // var minDob = DateTime.Today.AddYears(-actionItemParams.MaxAge - 1);
+            // var maxDob = DateTime.Today.AddYears(-actionItemParams.MinAge);
+
+            // query = query.Where( u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+
+            query = actionItemParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(a => a.DateCreated),
+                _=> query.OrderByDescending(a => a.Id)
+            };
+
+            return await PagedList<ActionItemDto>.CreateAsync(query.ProjectTo<ActionItemDto>(_mapper
+                .ConfigurationProvider).AsNoTracking(), 
+                    actionItemParams.PageNumber, actionItemParams.PageSize);
         }
 
         public async Task<bool> SaveAllAsync()
@@ -58,6 +76,12 @@ namespace API.Data
         public async Task<ActionItem> GetActionItemById(int actionItemId)
         {
             return await _context.ActionItems.SingleOrDefaultAsync(x => x.Id == actionItemId);
+        }
+
+        public async Task<ActionItem> GetExistingActionItem(string actionItemNumber)
+        {
+            return await _context.ActionItems
+                .FirstOrDefaultAsync(x => x.ActionItemNumber == actionItemNumber);
         }
     }
 }

@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { ActionItemListComponent } from './action_item/action-item-list/action-item-list.component';
 import { ActionItemDetailComponent } from './action_item/action-item-detail/action-item-detail.component';
@@ -25,6 +25,8 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { EmployeeCardComponent } from './employees/employee-card/employee-card.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { DateInputComponent } from './_forms/date-input/date-input.component';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ActionItemEditComponent,
     ActionItemAddComponent,
     EmployeeAddComponent,
-    EmployeeCardComponent
+    EmployeeCardComponent,
+    DateInputComponent,
+    TextInputComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +54,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     NgxSpinnerModule
   ],

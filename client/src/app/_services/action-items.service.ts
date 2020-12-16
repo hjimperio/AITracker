@@ -3,38 +3,38 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Employee } from '../_models/employee';
+import { ActionItem } from '../_models/actionItem';
+import { ActionItemParams } from '../_models/actionItemParams';
 import { PaginatedResult } from '../_models/pagination';
-import { UserParams } from '../_models/userParams';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeesService {
+export class ActionItemService {
   baseUrl = environment.apiUrl;
-  employees: Employee[] = [];
+  actionItems: ActionItem[] = [];
 
   constructor(private http: HttpClient) { }
 
-  getEmployees(userParams: UserParams) {
-    let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+  getActionItems(actionItemParams: ActionItemParams) {
+    let params = this.getPaginationHeaders(actionItemParams.pageNumber, actionItemParams.pageSize);
 
-    params = params.append('orderBy', userParams.orderBy.toString());
+    params = params.append('orderBy', actionItemParams.orderBy);
+    params = params.append('mapStatus', actionItemParams.mapStatus);
     
-    return this.getPaginatedResult<Employee[]>(this.baseUrl + 'users', params)
+    return this.getPaginatedResult<ActionItem[]>(this.baseUrl + 'actionitems', params)
   }
 
-  getEmployee(username: string) {
-    const employee = this.employees.find(x => x.username === username);
+  getActionItem(actionItemId: number) {
+    const employee = this.actionItems.find(x => x.id === actionItemId);
     if (employee !== undefined) return of(employee);
-    return this.http.get<Employee>(this.baseUrl + 'users/' + username);
+    return this.http.get<ActionItem>(this.baseUrl + 'actionitems/' + actionItemId);
   }
 
-  updateMember(employee: Employee) {
-    return this.http.put(this.baseUrl + 'users', employee).pipe(
+  addActionItem(model: any) {
+    return this.http.post(this.baseUrl + 'actionitems', model).pipe(
       map(() => {
-        const index = this.employees.indexOf(employee);
-        this.employees[index] = employee;
+        //this.actionItems.push(model);
       })
     );
   }
@@ -60,4 +60,5 @@ export class EmployeesService {
 
     return params;
   }
+
 }

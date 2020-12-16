@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -22,14 +24,17 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActionItemDto>>> GetActionItems()
+        public async Task<ActionResult<IEnumerable<ActionItemDto>>> GetActionItems([FromQuery]ActionItemParams actionItemParams)
         {
-            var actionItem = await _actionItemRepository.GetActionItems();
+            var actionItem = await _actionItemRepository.GetActionItems(actionItemParams);
             
+            Response.AddPaginationHeader(actionItem.CurrentPage, actionItem.PageSize, 
+                actionItem.TotalCount, actionItem.TotalPages);
+
             return Ok(actionItem);
         }
 
-        [HttpGet("{actionItemId}")]
+        [HttpGet("{actionItemId}", Name = "GetActionItem")]
         public async Task<ActionResult<ActionItemDto>> GetActionItem(int actionItemId)
         {
             return await _actionItemRepository.GetActionItem(actionItemId);
@@ -38,10 +43,8 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult> AddActionItem(ActionItemAddDto actionItemAddDto)
         {
-            var actionItems = await _actionItemRepository.GetActionItems();
-
-            var actionItemChecker = actionItems
-                .FirstOrDefault(x => x.ActionItemNumber == actionItemAddDto.ActionItemNumber);
+            var actionItemChecker = await _actionItemRepository
+                .GetExistingActionItem(actionItemAddDto.ActionItemNumber);
 
             if (actionItemChecker != null)
                 return BadRequest("Existing AI already entered");
@@ -64,10 +67,8 @@ namespace API.Controllers
 
             if (actionItem.ActionItemNumber != actionItemUpdateDto.ActionItemNumber)
             {
-                var actionItems = await _actionItemRepository.GetActionItems();
-
-                var actionItemChecker = actionItems
-                    .FirstOrDefault(x => x.ActionItemNumber == actionItemUpdateDto.ActionItemNumber);
+                var actionItemChecker = await _actionItemRepository
+                    .GetExistingActionItem(actionItemUpdateDto.ActionItemNumber);
 
                 if (actionItemChecker != null)
                     return BadRequest("Existing AI already entered");
@@ -81,7 +82,7 @@ namespace API.Controllers
             return BadRequest("Nothing is updated");
         }
 
-        [HttpDelete("{actionItemId}")]
+        [HttpDelete("delete-actionitem/{actionItemId}")]
         public async Task<ActionResult> DeleteActionItem(int actionItemId)
         {
             var actionItem = await _actionItemRepository.GetActionItemById(actionItemId);

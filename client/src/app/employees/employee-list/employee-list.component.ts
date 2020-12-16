@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Employee } from 'src/app/_models/employee';
+import { Pagination } from 'src/app/_models/pagination';
+import { User } from 'src/app/_models/user';
+import { UserParams } from 'src/app/_models/userParams';
+import { AccountService } from 'src/app/_services/account.service';
 import { EmployeesService } from 'src/app/_services/employees.service';
 
 @Component({
@@ -9,12 +14,37 @@ import { EmployeesService } from 'src/app/_services/employees.service';
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
-  employees$: Observable<Employee[]>;
+  employees: Employee[];
+  pagination: Pagination;
+  userParams: UserParams;
+  user: User;
 
-  constructor(private employeeService: EmployeesService) { }
+  constructor(private employeeService: EmployeesService, private accountService: AccountService) { 
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
+      this.user = user;
+      this.userParams = new UserParams(user);
+    })
+  }
 
   ngOnInit(): void {
-    this.employees$ = this.employeeService.getEmployees();
+    this.loadEmployees();
+  }
+
+  loadEmployees() {
+    this.employeeService.getEmployees(this.userParams).subscribe(response => {
+      this.employees = response.result;
+      this.pagination = response.pagination;
+    });
+  }
+
+  resetFilters() {
+    this.userParams = new UserParams(this.user);
+    this.loadEmployees();
+  }
+
+  pageChanged(event: any) {
+    this.userParams.pageNumber = event.page;
+    this.loadEmployees();
   }
 
 }

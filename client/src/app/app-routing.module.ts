@@ -24,12 +24,12 @@ const routes: Routes = [
     children: [
       {path: 'employees', component: EmployeeListComponent},
       {path: 'employees/:username', component: EmployeeDetailComponent},
-      {path: 'employees/add', component: EmployeeAddComponent},
-      {path: 'employee/edit', component: EmployeeEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
+      {path: 'employee/add', component: EmployeeAddComponent},
+      {path: 'employee/edit/:id', component: EmployeeEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'action-items', component: ActionItemListComponent},
       {path: 'action-items/:id', component: ActionItemDetailComponent},
-      {path: 'action-items/add', component: ActionItemAddComponent},
-      {path: 'action-item/edit', component: ActionItemEditComponent},
+      {path: 'action-item/add', component: ActionItemAddComponent},
+      {path: 'action-item/edit/:id', component: ActionItemEditComponent},
     ]
   },
   {path: 'errors', component: TestErrorsComponent},

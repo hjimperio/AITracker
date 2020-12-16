@@ -1,1 +1,63 @@
-<p>action-item-list works!</p>
+<div class="container mt-3">
+    <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadActionItems()" autocomplete="off">
+      <button routerLink='/action-item/add' class="btn btn-success">Add Action Item</button>
+      <button class="btn btn-primary ml-1" type="submit">Apply Filters</button>
+      <button (click)="resetFilters()" class="btn btn-danger ml-1" type="submit">Reset Filters</button>
+      <div class="col">
+          <div class="btn-group float-right">
+              <button class="btn btn-primary" 
+                  type="button"
+                  name="orderBy" 
+                  (click)="loadActionItems()"
+                  btnRadio='created'
+                  [(ngModel)]="actionItemParams.orderBy">Date Created</button>
+  
+              <button class="btn btn-primary" 
+                  type="button"
+                  name="orderBy" 
+                  (click)="loadActionItems()"
+                  btnRadio='id'
+                  [(ngModel)]="actionItemParams.orderBy">By ID</button>
+          </div>
+      </div>
+  </form>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Category</th>
+              <th scope="col">Action Item Number</th>
+              <th scope="col">Internal Subject</th>
+              <th scope="col">Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let actionItem of actionItems">
+              <th scope="row">{{actionItem.id}}</th>
+              <td>{{actionItem.category}}</td>
+              <td>{{actionItem.actionItemNumber}}</td>
+              <td>{{actionItem.internalEmailSubject}}</td>
+              <td>
+                <button routerLink='/action-item/edit/{{actionItem.id}}' class="btn btn-primary mr-3"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+          </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-center" *ngIf="pagination">
+    <pagination 
+        [boundaryLinks]="true" 
+        [totalItems]="pagination.totalItems"
+        [itemsPerPage]="pagination.itemsPerPage"
+        [(ngModel)]="pagination.currentPage"
+        (pageChanged)="pageChanged($event)"
+        previousText="&lsaquo;" 
+        nextText="&rsaquo;" 
+        firstText="&laquo;" 
+        lastText="&raquo;">
+    </pagination>
+</div>
