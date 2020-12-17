@@ -82,7 +82,7 @@ namespace API.Controllers
             return BadRequest("Nothing is updated");
         }
 
-        [HttpDelete("delete-actionitem/{actionItemId}")]
+        [HttpDelete("{actionItemId}")]
         public async Task<ActionResult> DeleteActionItem(int actionItemId)
         {
             var actionItem = await _actionItemRepository.GetActionItemById(actionItemId);

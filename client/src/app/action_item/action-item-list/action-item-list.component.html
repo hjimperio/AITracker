@@ -26,22 +26,24 @@
     <table class="table">
         <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Category</th>
               <th scope="col">Action Item Number</th>
               <th scope="col">Internal Subject</th>
+              <th scope="col">Work Order Type</th>
               <th scope="col">Options</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let actionItem of actionItems">
-              <th scope="row">{{actionItem.id}}</th>
-              <td>{{actionItem.category}}</td>
+              <th scope="row">{{actionItem.category}}</th>
               <td>{{actionItem.actionItemNumber}}</td>
               <td>{{actionItem.internalEmailSubject}}</td>
+              <td>{{actionItem.workOrderTypeRequest}}</td>
               <td>
                 <button routerLink='/action-item/edit/{{actionItem.id}}' class="btn btn-primary mr-3"><i class="fa fa-edit"></i></button>
-                <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-danger" (click)="deleteActionItem(actionItem.id)">
+                  <i class="fa fa-trash"></i>
+                </button>
               </td>
             </tr>
           </tbody>

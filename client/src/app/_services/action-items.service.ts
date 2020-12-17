@@ -26,17 +26,30 @@ export class ActionItemService {
   }
 
   getActionItem(actionItemId: number) {
-    const employee = this.actionItems.find(x => x.id === actionItemId);
-    if (employee !== undefined) return of(employee);
+    const actionItem = this.actionItems.find(x => x.id === actionItemId);
+    if (actionItem !== undefined) return of(actionItem);
     return this.http.get<ActionItem>(this.baseUrl + 'actionitems/' + actionItemId);
   }
 
   addActionItem(model: any) {
     return this.http.post(this.baseUrl + 'actionitems', model).pipe(
-      map(() => {
+      map((actionItem: ActionItem) => {
         //this.actionItems.push(model);
       })
     );
+  }
+
+  updateActionItem(actionItem: ActionItem, actionItemId: number) {
+    return this.http.put(this.baseUrl + 'actionitems/' + actionItemId, actionItem).pipe(
+      map(() => {
+        const index = this.actionItems.indexOf(actionItem);
+        this.actionItems[index] = actionItem;
+      })
+    );
+  }
+
+  deleteActionItem(actionItemId: number) {
+    return this.http.delete(this.baseUrl + 'actionitems/' + actionItemId);
   }
 
   private getPaginatedResult<T>(url, params) {

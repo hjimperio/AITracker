@@ -1,1 +1,166 @@
-<p>action-item-edit works!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <button
+            [disabled]="(!editActionItemForm.valid && !editActionItemForm.dirty) || 
+              (editActionItemForm.valid && !editActionItemForm.dirty)"
+            form="editActionItemForm"
+            class="btn btn-success mb-2">
+            Update Action Item
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <form
+          id="editActionItemForm"
+          [formGroup]="editActionItemForm"
+          (ngSubmit)="editActionItemForm.valid && updateActionItem()">
+          <tabset [justified]="true">
+            <tab heading="Employee">
+              <div class="card">
+                <div class="card-body">
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['category']"
+                    [label]="'Category'"
+                  ></app-text-input>
+                  <div class="form-group">
+                    <label for="division">Project Type</label>
+                    <select class="form-control" formControlName="division">
+                      <option value="PRO">PRO</option>
+                      <option value="CORE">CORE</option>
+                      <option value="LS">LS</option>
+                    </select>
+                  </div>
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['request']"
+                    [label]="'Request'"
+                  ></app-text-input>
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['internalEmailSubject']"
+                    [label]="'Internal Email Subject'"
+                  ></app-text-input>
+                  <div class="form-group">
+                    <label for="assignedToId">Assigned To</label>
+                    <select class="form-control" formControlName="assignedToId">
+                      <option value="1">Robin</option>
+                      <option value="2">Sheena</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="workOrderTypeRequest"
+                      >Work Order Type Request</label>
+                    <select
+                      class="form-control"
+                      formControlName="workOrderTypeRequest">
+                      <option value="changeRequest">Change Request</option>
+                      <option value="clone">Clone</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" style="margin-right: 10px">Feedback?</label>
+                    <label class="radio-inline">
+                      <input
+                        [checked]="actionItem"
+                        type="radio"
+                        value="true"
+                        formControlName="feedback"/>
+                      Yes
+                    </label>
+                    <label class="radio-inline">
+                      <input
+                      [checked]="!actionItem"
+                        type="radio"
+                        value="false"
+                        formControlName="feedback"
+                        class="ml-3"/>
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </tab>
+            <tab heading="DMS">
+              <div class="card">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="notes">History</label>
+                    <textarea
+                      class="form-control"
+                      formControlName="notes"
+                      rows="2"
+                    ></textarea>
+                  </div>
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['taskNumber']"
+                    [label]="'Task Number'"
+                  ></app-text-input>
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['actionItemNumber']"
+                    [label]="'Action Item Number'"
+                  ></app-text-input>
+                  <div class="form-group">
+                    <label for="deliveryManagerSupportId">Delivery Manager</label>
+                    <select
+                      class="form-control"
+                      formControlName="deliveryManagerSupportId">
+                      <option value="1">John Oswald Junio</option>
+                      <option value="2">Menchie Ronquillo</option>
+                      <option value="3">Jonalyn Bula</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </tab>
+            <tab heading="SCJ Info">
+              <div class="card">
+                <div class="card-body">
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['externalEmailSubject']"
+                    [label]="'External Email Subject'"
+                  ></app-text-input>
+                  <app-date-input
+                    [formControl]="editActionItemForm.controls['dateStarted']"
+                    [label]="'Date Started'"
+                  ></app-date-input>
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['currentTeamOwner']"
+                    [label]="'Current Team Owner'"
+                  ></app-text-input>
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['currentIndividualAssigned']"
+                    [label]="'Current Individual Assigned'"
+                  ></app-text-input>
+                  <div class="form-group">
+                    <label for="remarks">Remarks</label>
+                    <textarea
+                      class="form-control"
+                      formControlName="remarks"
+                      rows="2"
+                    ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="mapStatus">Map Status</label>
+                    <select class="form-control" formControlName="mapStatus">
+                      <option value="completed">Completed</option>
+                      <option value="open">Open</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                  </div>
+                  <app-date-input
+                    [formControl]="editActionItemForm.controls['dateResolved']"
+                    [label]="'Date Resolved'"></app-date-input>
+                </div>
+              </div>
+            </tab>
+          </tabset>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <p>Form value: {{ editActionItemForm.value | json }}</p>
+    <p>Form status: {{ editActionItemForm.status | json }}</p>
+  </div>
+  
+  
