@@ -40,7 +40,12 @@
               <td>{{actionItem.internalEmailSubject}}</td>
               <td>{{actionItem.workOrderTypeRequest}}</td>
               <td>
-                <button routerLink='/action-item/edit/{{actionItem.id}}' class="btn btn-primary mr-3"><i class="fa fa-edit"></i></button>
+                <button  class="btn btn-info mr-3" (click)="infoActionItem(actionItem.id)">
+                  <i class="fa fa-info-circle"></i>
+                </button>
+                <button routerLink='/action-item/edit/{{actionItem.id}}' class="btn btn-primary mr-3">
+                  <i class="fa fa-edit"></i>
+                </button>
                 <button class="btn btn-danger" (click)="deleteActionItem(actionItem.id)">
                   <i class="fa fa-trash"></i>
                 </button>

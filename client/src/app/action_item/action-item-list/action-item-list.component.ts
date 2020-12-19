@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { ActionItem } from 'src/app/_models/actionItem';
@@ -6,6 +7,7 @@ import { ActionItemParams } from 'src/app/_models/actionItemParams';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
 import { ActionItemService } from 'src/app/_services/action-items.service';
+import { ActionItemDetailComponent } from '../action-item-detail/action-item-detail.component';
 
 @Component({
   selector: 'app-action-item-list',
@@ -14,11 +16,14 @@ import { ActionItemService } from 'src/app/_services/action-items.service';
 })
 export class ActionItemListComponent implements OnInit {
   actionItems: ActionItem[];
+  actionItem: ActionItem;
   pagination: Pagination;
   actionItemParams: ActionItemParams;
   user: User;
+  bsModalRef: BsModalRef;
 
-  constructor(private actionItemService: ActionItemService, private toastr: ToastrService) {
+  constructor(private actionItemService: ActionItemService, private toastr: ToastrService, 
+    private modalService: BsModalService) {
     this.actionItemParams = new ActionItemParams(this.user);
   }
 
@@ -41,6 +46,18 @@ export class ActionItemListComponent implements OnInit {
   pageChanged(event: any) {
     this.actionItemParams.pageNumber = event.page;
     this.loadActionItems();
+  }
+
+  infoActionItem(actionItemId: number) {
+    this.actionItemService.getActionItem(actionItemId)
+      .subscribe(actionItem => {
+        this.actionItem = actionItem;
+        const initialState = {
+          title: "Sample",
+          actionItem: this.actionItem
+        };
+        this.bsModalRef = this.modalService.show(ActionItemDetailComponent, {initialState});
+      });
   }
 
   deleteActionItem(actionItemId: number) {

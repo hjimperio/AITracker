@@ -63,6 +63,7 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ActionItemDetailComponent]
 })
 export class AppModule { }
