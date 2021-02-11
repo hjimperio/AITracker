@@ -25,7 +25,7 @@ const routes: Routes = [
       {path: 'employees', component: EmployeeListComponent},
       {path: 'employees/:username', component: EmployeeDetailComponent},
       {path: 'employee/add', component: EmployeeAddComponent},
-      {path: 'employee/edit/:id', component: EmployeeEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
+      {path: 'employee/edit', component: EmployeeEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
       {path: 'action-items', component: ActionItemListComponent},
       {path: 'action-items/:id', component: ActionItemDetailComponent},
       {path: 'action-item/add', component: ActionItemAddComponent},

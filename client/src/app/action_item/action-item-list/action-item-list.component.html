@@ -1,7 +1,14 @@
 <div class="container mt-3">
-    <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadActionItems()" autocomplete="off">
+    <div class="row mb-3">
       <button routerLink='/action-item/add' class="btn btn-success">Add Action Item</button>
-      <button class="btn btn-primary ml-1" type="submit">Apply Filters</button>
+    </div>
+    <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadActionItems()" autocomplete="off">
+      <div class="form-group">
+        <label>Action Item Number: </label>
+        <input type="text" class="form-control ml-1" style="width: 130px;" name="actionItemNumber" 
+            [(ngModel)]="actionItemParams.actionItemNumber">
+      </div>
+      <button class="btn btn-primary ml-1" type="submit" [disabled]="!form.dirty">Apply Filters</button>
       <button (click)="resetFilters()" class="btn btn-danger ml-1" type="submit">Reset Filters</button>
       <div class="col">
           <div class="btn-group float-right">
@@ -68,3 +75,18 @@
         lastText="&raquo;">
     </pagination>
 </div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Testing
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
+  </div>
+</ng-template>

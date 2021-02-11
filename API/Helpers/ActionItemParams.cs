@@ -13,6 +13,7 @@ namespace API.Helpers
         }
 
         public string CurrentUsername { get; set; }
+        public string ActionItemNumber { get; set; }
         public string OrderBy { get; set; } = "created";
         public string MapStatus { get; set; } = "open";
     }

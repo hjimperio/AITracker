@@ -37,6 +37,13 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        [HttpGet("list")]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetUserList()
+        {
+            var users = await _userRepository.GetUsers();
+            return Ok(_mapper.Map<IEnumerable<AppUser>, IEnumerable<EmployeeDto>>(users));
+        }
+
         [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<EmployeeDto>> GetUser(string username)
         {

@@ -26,8 +26,9 @@
                   [label]="'Category'"
                 ></app-text-input>
                 <div class="form-group">
-                  <label for="division">Project Type</label>
+                  <label for="division">Division</label>
                   <select class="form-control" formControlName="division">
+                    <option value="" disabled selected>Select your option</option>
                     <option selected value="PRO">PRO</option>
                     <option value="CORE">CORE</option>
                     <option value="LS">LS</option>
@@ -45,8 +46,8 @@
                   <label for="assignedToId">Assigned To</label>
                   <select class="form-control" formControlName="assignedToId">
                     <option value="" disabled selected>Select Employee</option>
-                    <option value="1">Robin</option>
-                    <option value="2">Sheena</option>
+                    <option *ngFor="let employee of employees" value="{{employee.id}}">
+                      {{employee.firstName}} {{employee.lastName}}</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -56,8 +57,11 @@
                     class="form-control"
                     formControlName="workOrderTypeRequest">
                     <option value="" disabled selected>Select your option</option>
-                    <option value="changeRequest">Change Request</option>
-                    <option value="clone">Clone</option>
+                    <option value="Change Request">Change Request</option>
+                    <option value="Clone">Clone</option>
+                    <option value="Base">Base</option>
+                    <option value="Complex">Complex</option>
+                    <option value="FS Complex">FS Complex</option>
                   </select>
                 </div>
                 <div class="form-group">

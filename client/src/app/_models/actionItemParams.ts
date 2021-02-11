@@ -6,8 +6,9 @@ export class ActionItemParams {
     pageSize = 5;
     mapStatus = "open";
     orderBy = "created";
+    actionItemNumber = "";
 
-    constructor(user: User) {
+    constructor(user?: User) {
         //this.gender = user.gender === 'female' ? 'male' : 'female';
     }
 }

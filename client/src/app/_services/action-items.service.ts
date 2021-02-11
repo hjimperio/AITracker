@@ -21,6 +21,7 @@ export class ActionItemService {
 
     params = params.append('orderBy', actionItemParams.orderBy);
     params = params.append('mapStatus', actionItemParams.mapStatus);
+    params = params.append('actionItemNumber', actionItemParams.actionItemNumber);
     
     return this.getPaginatedResult<ActionItem[]>(this.baseUrl + 'actionitems', params)
   }

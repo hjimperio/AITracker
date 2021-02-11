@@ -3,7 +3,13 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ActionItem } from 'src/app/_models/actionItem';
+import { Employee } from 'src/app/_models/employee';
+import { Pagination } from 'src/app/_models/pagination';
+import { User } from 'src/app/_models/user';
+import { UserParams } from 'src/app/_models/userParams';
+import { AccountService } from 'src/app/_services/account.service';
 import { ActionItemService } from 'src/app/_services/action-items.service';
+import { EmployeesService } from 'src/app/_services/employees.service';
 
 @Component({
   selector: 'app-action-item-add',
@@ -12,20 +18,22 @@ import { ActionItemService } from 'src/app/_services/action-items.service';
 })
 export class ActionItemAddComponent implements OnInit {
   addActionItemForm: FormGroup;
+  employees: Employee[];
+  pagination: Pagination;
 
-  // @ViewChild('addForm') addForm: NgForm;
-  // model: any = {};
-  // @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
-  //   if (this.addForm.dirty) {
-  //     $event.returnValue = true;
-  //   }
-  // }
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+    if (this.addActionItemForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(private actionItemService: ActionItemService, private router: Router, 
-    private toastr: ToastrService, private fb: FormBuilder) { }
+    private toastr: ToastrService, private fb: FormBuilder, private employeeService: EmployeesService) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.employeeService.getEmployeeList()
+    .subscribe(response => this.employees = response);
   }
 
   initializeForm() {
@@ -63,5 +71,4 @@ export class ActionItemAddComponent implements OnInit {
       this.router.navigateByUrl('/action-items');
     });
   }
-
 }

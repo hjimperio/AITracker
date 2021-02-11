@@ -33,9 +33,12 @@ namespace API.Data
         public async Task<PagedList<ActionItemDto>> GetActionItems(ActionItemParams actionItemParams)
         {
             var query = _context.ActionItems.AsQueryable();
-
+            
             //query = query.Where(u => u.UserName != userParams.CurrentUsername);
             query = query.Where(a => a.MapStatus == actionItemParams.MapStatus);
+
+            if (actionItemParams.ActionItemNumber != null)
+                query = query.Where(a => a.ActionItemNumber == actionItemParams.ActionItemNumber);
             
             // var minDob = DateTime.Today.AddYears(-actionItemParams.MaxAge - 1);
             // var maxDob = DateTime.Today.AddYears(-actionItemParams.MinAge);

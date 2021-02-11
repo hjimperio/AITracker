@@ -3,8 +3,10 @@
 </div>
 
 <div class="container mt-3">
-    <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadEmployees()" autocomplete="off">
+    <div class="row mb-3">
         <button routerLink="/employee/add" class="btn btn-success">Add Employee</button>
+    </div>
+    <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadEmployees()" autocomplete="off">
         <button class="btn btn-primary ml-1" type="submit">Apply Filters</button>
         <button (click)="resetFilters()" class="btn btn-danger ml-1" type="submit">Reset Filters</button>
         <div class="col">

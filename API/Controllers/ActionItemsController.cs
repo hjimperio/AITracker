@@ -37,7 +37,9 @@ namespace API.Controllers
         [HttpGet("{actionItemId}", Name = "GetActionItem")]
         public async Task<ActionResult<ActionItemDto>> GetActionItem(int actionItemId)
         {
-            return await _actionItemRepository.GetActionItem(actionItemId);
+            var actionItem = await _actionItemRepository.GetActionItem(actionItemId);
+                
+            return actionItem;
         }
 
         [HttpPost]

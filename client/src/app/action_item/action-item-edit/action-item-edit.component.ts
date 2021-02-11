@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ActionItem } from 'src/app/_models/actionItem';
+import { Employee } from 'src/app/_models/employee';
+import { UserParams } from 'src/app/_models/userParams';
 import { ActionItemService } from 'src/app/_services/action-items.service';
+import { EmployeesService } from 'src/app/_services/employees.service';
 
 @Component({
   selector: 'app-action-item-edit',
@@ -14,14 +17,24 @@ export class ActionItemEditComponent implements OnInit {
   editActionItemForm: FormGroup;
   actionItem: ActionItem;
   actionItemId: number = parseInt(this.route.snapshot.paramMap.get('id'));
+  employees: Employee[];
+  feedback: boolean = false;
+
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+    if (this.editActionItemForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(private actionItemService: ActionItemService, private router: Router, 
-    private toastr: ToastrService, private fb: FormBuilder, private route: ActivatedRoute) { }
+    private toastr: ToastrService, private fb: FormBuilder, private route: ActivatedRoute,
+    private employeeService: EmployeesService) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.employeeService.getEmployeeList()
+    .subscribe(response => this.employees = response);
     this.loadActionItem();
-    console.log(this.editActionItemForm);
   }
 
   loadActionItem() {
@@ -48,7 +61,7 @@ export class ActionItemEditComponent implements OnInit {
           mapStatus: this.actionItem.mapStatus,
           dateResolved: this.actionItem.dateResolved
         });
-      })
+      });
   }
 
   initializeForm() {
@@ -82,7 +95,8 @@ export class ActionItemEditComponent implements OnInit {
     }
     this.actionItemService.updateActionItem(this.editActionItemForm.value, this.actionItemId).subscribe(() => {
       this.toastr.success('Action Item Updated Successfully');
-      //this.editForm.reset(this.employee);
+      this.editActionItemForm.reset(this.actionItem);
+      this.loadActionItem();
     });
   }
 
