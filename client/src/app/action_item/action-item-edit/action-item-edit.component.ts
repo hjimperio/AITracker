@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ActionItem } from 'src/app/_models/actionItem';
 import { Employee } from 'src/app/_models/employee';
-import { UserParams } from 'src/app/_models/userParams';
 import { ActionItemService } from 'src/app/_services/action-items.service';
 import { EmployeesService } from 'src/app/_services/employees.service';
 
@@ -18,7 +17,6 @@ export class ActionItemEditComponent implements OnInit {
   actionItem: ActionItem;
   actionItemId: number = parseInt(this.route.snapshot.paramMap.get('id'));
   employees: Employee[];
-  feedback: boolean = false;
 
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
     if (this.editActionItemForm.dirty) {
@@ -37,54 +35,36 @@ export class ActionItemEditComponent implements OnInit {
     this.loadActionItem();
   }
 
-  loadActionItem() {
-    this.actionItemService.getActionItem(this.actionItemId)
-      .subscribe(actionItem => {
-        this.actionItem = actionItem;
-        this.editActionItemForm.setValue({
-          category: this.actionItem.category,
-          division: this.actionItem.division,
-          request: this.actionItem.request,
-          internalEmailSubject: this.actionItem.internalEmailSubject,
-          assignedToId: this.actionItem.assignedToId,
-          workOrderTypeRequest: this.actionItem.workOrderTypeRequest,
-          feedback: this.actionItem.feedback,
-          notes: this.actionItem.notes,
-          taskNumber: this.actionItem.taskNumber,
-          actionItemNumber: this.actionItem.actionItemNumber,
-          deliveryManagerSupportId: this.actionItem.deliveryManagerSupportId,
-          externalEmailSubject: this.actionItem.externalEmailSubject,
-          dateStarted: this.actionItem.dateStarted,
-          currentTeamOwner: this.actionItem.currentTeamOwner,
-          currentIndividualAssigned: this.actionItem.currentIndividualAssigned,
-          remarks: this.actionItem.remarks,
-          mapStatus: this.actionItem.mapStatus,
-          dateResolved: this.actionItem.dateResolved
-        });
-      });
-  }
-
   initializeForm() {
     this.editActionItemForm = this.fb.group({
-      category: ['', Validators.required],
+      region: ['', Validators.required],
       division: ['', Validators.required],
-      request: ['', Validators.required],
       internalEmailSubject: ['', Validators.required],
-      assignedToId: ['', Validators.required],
+      externalEmailSubject: ['', Validators.required],
       workOrderTypeRequest: ['', Validators.required],
       feedback: ['', Validators.required],
       notes: ['', Validators.required],
       taskNumber: ['', Validators.required],
       actionItemNumber: ['', Validators.required],
-      deliveryManagerSupportId: ['', Validators.required],
-      externalEmailSubject: ['', Validators.required],
+      aiCreatedBy: ['', Validators.required],
       dateStarted: ['', Validators.required],
-      currentTeamOwner: ['', Validators.required],
-      currentIndividualAssigned: ['', Validators.required],
-      remarks: ['', Validators.required],
-      mapStatus: ['', Validators.required],
-      dateResolved: ['', Validators.required]
-    })
+      dateResolved: ['', Validators.required],
+      mapStatus: ['', Validators.required]
+    });
+  }
+
+  loadActionItem() {
+    this.actionItemService.getActionItem(this.actionItemId)
+      .subscribe(actionItem => {
+        this.actionItem = actionItem;
+        delete this.actionItem.id;
+        delete this.actionItem.dateCreated;
+        this.editActionItemForm.setValue(this.actionItem);
+        this.editActionItemForm.patchValue({
+          dateStarted: new Date(this.actionItem.dateStarted),
+          dateResolved: new Date(this.actionItem.dateResolved)
+        });
+      });
   }
 
   updateActionItem() {
@@ -93,6 +73,7 @@ export class ActionItemEditComponent implements OnInit {
     } else {
       this.editActionItemForm.patchValue({feedback: false});
     }
+
     this.actionItemService.updateActionItem(this.editActionItemForm.value, this.actionItemId).subscribe(() => {
       this.toastr.success('Action Item Updated Successfully');
       this.editActionItemForm.reset(this.actionItem);

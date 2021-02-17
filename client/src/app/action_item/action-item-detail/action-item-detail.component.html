@@ -6,36 +6,28 @@
   </div>
   <div class="modal-body">
     <div class="form-group mb-3">
-      <label for="category" class="form-label">Category</label>
-      <input type="text" class="form-control" value="{{actionItem.category}}" disabled>
+      <label for="category" class="form-label">Region</label>
+      <input type="text" class="form-control" value="{{actionItem.region}}" disabled>
     </div>
     <div class="form-group mb-3">
       <label for="division" class="form-label">Division</label>
       <input type="text" class="form-control" value="{{actionItem.division}}" disabled>
     </div>
     <div class="form-group mb-3">
-      <label for="request" class="form-label">Request</label>
-      <input type="text" class="form-control" value="{{actionItem.request}}" disabled>
-    </div>
-    <div class="form-group mb-3">
       <label for="dateCreated" class="form-label">Date Created</label>
-      <input type="text" class="form-control" value="{{actionItem.dateCreated}}" disabled>
+      <input type="text" class="form-control" value="{{actionItem.dateCreated | date: 'dd MMM yyyy'}}" disabled>
     </div>
     <div class="form-group mb-3">
       <label for="internalEmailSubject" class="form-label">Internal Email Subject</label>
       <input type="text" class="form-control" value="{{actionItem.internalEmailSubject}}" disabled>
     </div>
     <div class="form-group mb-3">
-      <label for="assignedToId" class="form-label">Assigned To</label>
-      <input type="text" class="form-control" value="{{name}}" disabled>
+      <label for="externalEmailSubject" class="form-label">External Email Subject</label>
+      <input type="text" class="form-control" value="{{actionItem.externalEmailSubject}}" disabled>
     </div>
     <div class="form-group mb-3">
       <label for="workOrderTypeRequest" class="form-label">Work Order Type Request</label>
       <input type="text" class="form-control" value="{{actionItem.workOrderTypeRequest}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="feedback" class="form-label">Feedback?</label>
-      <input type="text" class="form-control" value="{{feedback}}" disabled>
     </div>
     <div class="form-group mb-3">
       <label for="notes" class="form-label">Notes</label>
@@ -43,45 +35,32 @@
       </textarea>
     </div>
     <div class="form-group mb-3">
+      <label for="feedback" class="form-label">Feedback?</label>
+      <input type="text" class="form-control" value="{{feedback}}" disabled>
+    </div>
+    <div class="form-group mb-3">
       <label for="taskNumber" class="form-label">Task Number</label>
-      <input type="text" class="form-control" value="{{actionItem.taskNumber}}" disabled>
+      <input type="text" class="form-control" value="{{actionItem?.taskNumber}}" disabled>
     </div>
     <div class="form-group mb-3">
       <label for="actionItemNumber" class="form-label">Action Item Number</label>
-      <input type="text" class="form-control" value="{{actionItem.actionItemNumber}}" disabled>
+      <input type="text" class="form-control" value="{{actionItem?.actionItemNumber}}" disabled>
     </div>
     <div class="form-group mb-3">
-      <label for="deliveryManagerSupportId" class="form-label">Delivery Manager Support</label>
-      <input type="text" class="form-control" value="{{actionItem.deliveryManagerSupportId}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="externalEmailSubject" class="form-label">External Email Subject</label>
-      <input type="text" class="form-control" value="{{actionItem.externalEmailSubject}}" disabled>
+      <label for="aiCreatedBy" class="form-label">AI Created By</label>
+      <input type="text" class="form-control" value="{{actionItem?.aiCreatedBy}}" disabled>
     </div>
     <div class="form-group mb-3">
       <label for="dateStarted" class="form-label">Date Started</label>
-      <input type="text" class="form-control" value="{{actionItem.dateStarted}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="currentTeamOwner" class="form-label">Current Team Owner</label>
-      <input type="text" class="form-control" value="{{actionItem.currentTeamOwner}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="currentIndividualAssigned" class="form-label">Current Individual Assigned</label>
-      <input type="text" class="form-control" value="{{actionItem.currentIndividualAssigned}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="remarks" class="form-label">Remarks</label>
-      <textarea class="form-control" value="{{actionItem.remarks}}" rows="2" disabled>
-      </textarea>
-    </div>
-    <div class="form-group mb-3">
-      <label for="mapStatus" class="form-label">Map Status</label>
-      <input type="text" class="form-control" value="{{actionItem.mapStatus}}" disabled>
+      <input type="text" class="form-control" value="{{actionItem.dateStarted | date: 'dd MMM yyyy'}}" disabled>
     </div>
     <div class="form-group mb-3">
       <label for="dateResolved" class="form-label">Date Resolved</label>
-      <input type="text" class="form-control" value="{{actionItem.dateResolved}}" disabled>
+      <input type="text" class="form-control" value="{{actionItem.dateResolved | date: 'dd MMM yyyy'}}" disabled>
+    </div>
+    <div class="form-group mb-3">
+      <label for="mapStatus" class="form-label">Map Status</label>
+      <input type="text" class="form-control" value="{{actionItem.mapStatus | titlecase}}" disabled>
     </div>
   </div>
   <div class="modal-footer">

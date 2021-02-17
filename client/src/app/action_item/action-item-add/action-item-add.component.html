@@ -15,16 +15,20 @@
       <form
         [formGroup]="addActionItemForm"
         id="addActionItemForm"
-        (ngSubmit)="addActionItemForm.valid && addActionItem()"
-      >
+        (ngSubmit)="addActionItemForm.valid && addActionItem()">
         <tabset [justified]="true">
           <tab heading="Employee">
             <div class="card">
               <div class="card-body">
-                <app-text-input
-                  [formControl]="addActionItemForm.controls['category']"
-                  [label]="'Category'"
-                ></app-text-input>
+                <div class="form-group">
+                  <label for="region">Region</label>
+                  <select class="form-control" formControlName="region">
+                    <option value="" disabled selected>Select your option</option>
+                    <option selected value="ASPAC">ASPAC</option>
+                    <option value="EMEA">EMEA</option>
+                    <option value="NAUS">NAUS</option>
+                  </select>
+                </div>
                 <div class="form-group">
                   <label for="division">Division</label>
                   <select class="form-control" formControlName="division">
@@ -35,27 +39,15 @@
                   </select>
                 </div>
                 <app-text-input
-                  [formControl]="addActionItemForm.controls['request']"
-                  [label]="'Request'"
-                ></app-text-input>
-                <app-text-input
                   [formControl]="addActionItemForm.controls['internalEmailSubject']"
-                  [label]="'Internal Email Subject'"
-                ></app-text-input>
-                <div class="form-group">
-                  <label for="assignedToId">Assigned To</label>
-                  <select class="form-control" formControlName="assignedToId">
-                    <option value="" disabled selected>Select Employee</option>
-                    <option *ngFor="let employee of employees" value="{{employee.id}}">
-                      {{employee.firstName}} {{employee.lastName}}</option>
-                  </select>
-                </div>
+                  [label]="'Internal Email Subject'"></app-text-input>
+                <app-text-input
+                  [formControl]="addActionItemForm.controls['externalEmailSubject']"
+                  [label]="'External Email Subject'"></app-text-input>
                 <div class="form-group">
                   <label for="workOrderTypeRequest"
                     >Work Order Type Request</label>
-                  <select
-                    class="form-control"
-                    formControlName="workOrderTypeRequest">
+                  <select class="form-control" formControlName="workOrderTypeRequest">
                     <option value="" disabled selected>Select your option</option>
                     <option value="Change Request">Change Request</option>
                     <option value="Clone">Clone</option>
@@ -65,22 +57,16 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="control-label" style="margin-right: 10px">Feedback?</label>
-                  <label class="radio-inline">
-                    <input
-                      type="radio"
-                      value="true"
-                      formControlName="feedback"/>
-                    Yes
-                  </label>
-                  <label class="radio-inline">
-                    <input
-                      type="radio"
-                      value="false"
-                      formControlName="feedback"
-                      class="ml-3"/>
-                    No
-                  </label>
+                  <label class="control-label" >Feedback?</label>
+                  <select class="form-control" formControlName="feedback">
+                    <option value="" disabled selected>Select your option</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="notes">Notes</label>
+                  <textarea class="form-control"formControlName="notes" rows="2"></textarea>
                 </div>
               </div>
             </div>
@@ -88,14 +74,6 @@
           <tab heading="DMS">
             <div class="card">
               <div class="card-body">
-                <div class="form-group">
-                  <label for="notes">History</label>
-                  <textarea
-                    class="form-control"
-                    formControlName="notes"
-                    rows="2"
-                  ></textarea>
-                </div>
                 <app-text-input
                   [formControl]="addActionItemForm.controls['taskNumber']"
                   [label]="'Task Number'"
@@ -105,10 +83,10 @@
                   [label]="'Action Item Number'"
                 ></app-text-input>
                 <div class="form-group">
-                  <label for="deliveryManagerSupportId">Delivery Manager</label>
+                  <label for="aiCreatedBy">AI Created By</label>
                   <select
                     class="form-control"
-                    formControlName="deliveryManagerSupportId">
+                    formControlName="aiCreatedBy">
                     <option value="" disabled selected>Select DMS</option>
                     <option value="1">John Oswald Junio</option>
                     <option value="2">Menchie Ronquillo</option>
@@ -118,33 +96,15 @@
               </div>
             </div>
           </tab>
-          <tab heading="SCJ Info">
+          <tab heading="Status">
             <div class="card">
               <div class="card-body">
-                <app-text-input
-                  [formControl]="addActionItemForm.controls['externalEmailSubject']"
-                  [label]="'External Email Subject'"
-                ></app-text-input>
                 <app-date-input
                   [formControl]="addActionItemForm.controls['dateStarted']"
-                  [label]="'Date Started'"
-                ></app-date-input>
-                <app-text-input
-                  [formControl]="addActionItemForm.controls['currentTeamOwner']"
-                  [label]="'Current Team Owner'"
-                ></app-text-input>
-                <app-text-input
-                  [formControl]="addActionItemForm.controls['currentIndividualAssigned']"
-                  [label]="'Current Individual Assigned'"
-                ></app-text-input>
-                <div class="form-group">
-                  <label for="remarks">Remarks</label>
-                  <textarea
-                    class="form-control"
-                    formControlName="remarks"
-                    rows="2"
-                  ></textarea>
-                </div>
+                  [label]="'Date Started'"></app-date-input>
+                <app-date-input
+                  [formControl]="addActionItemForm.controls['dateResolved']"
+                  [label]="'Date Resolved'"></app-date-input>
                 <div class="form-group">
                   <label for="mapStatus">Map Status</label>
                   <select class="form-control" formControlName="mapStatus">
@@ -154,9 +114,6 @@
                     <option value="pending">Pending</option>
                   </select>
                 </div>
-                <app-date-input
-                  [formControl]="addActionItemForm.controls['dateResolved']"
-                  [label]="'Date Resolved'"></app-date-input>
               </div>
             </div>
           </tab>
@@ -170,3 +127,4 @@
   <p>Form status: {{ addActionItemForm.status | json }}</p>
 </div>
 
+ 

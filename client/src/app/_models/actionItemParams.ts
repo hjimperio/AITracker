@@ -4,7 +4,7 @@ import { User } from "./user";
 export class ActionItemParams {
     pageNumber = 1;
     pageSize = 5;
-    mapStatus = "open";
+    mapStatus = "all";
     orderBy = "created";
     actionItemNumber = "";
 

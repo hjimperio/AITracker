@@ -38,25 +38,20 @@ export class ActionItemAddComponent implements OnInit {
 
   initializeForm() {
     this.addActionItemForm = this.fb.group({
-      category: ['', Validators.required],
+      region: ['', Validators.required],
       division: ['', Validators.required],
-      request: ['', Validators.required],
       internalEmailSubject: ['', Validators.required],
-      assignedToId: ['', Validators.required],
+      externalEmailSubject: ['', Validators.required],
       workOrderTypeRequest: ['', Validators.required],
       feedback: ['', Validators.required],
       notes: ['', Validators.required],
-      taskNumber: ['', Validators.required],
-      actionItemNumber: ['', Validators.required],
-      deliveryManagerSupportId: ['', Validators.required],
-      externalEmailSubject: ['', Validators.required],
-      dateStarted: ['', Validators.required],
-      currentTeamOwner: ['', Validators.required],
-      currentIndividualAssigned: ['', Validators.required],
-      remarks: ['', Validators.required],
+      taskNumber: ['', Validators.nullValidator],
+      actionItemNumber: ['', Validators.nullValidator],
+      aiCreatedBy: ['0', Validators.nullValidator],
       mapStatus: ['', Validators.required],
-      dateResolved: ['', Validators.required]
-    })
+      dateStarted: ['', Validators.required],
+      dateResolved: ['2021-02-01', Validators.nullValidator]
+    });
   }
 
   addActionItem() {

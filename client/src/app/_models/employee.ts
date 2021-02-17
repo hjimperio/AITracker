@@ -2,10 +2,11 @@ export interface Employee {
     id: number;
     username: string;
     created: string;
-    lastActive: string;
+    lastActive: Date;
     firstName: string;
     lastName: string;
     position: string;
-    dateHired: string;
+    dateHired: Date;
     homeAddress: string;
+    gender: string;
 }

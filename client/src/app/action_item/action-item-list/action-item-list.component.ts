@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -21,6 +21,7 @@ export class ActionItemListComponent implements OnInit {
   actionItemParams: ActionItemParams;
   user: User;
   bsModalRef: BsModalRef;
+  modalRef: BsModalRef;
 
   constructor(private actionItemService: ActionItemService, private toastr: ToastrService, 
     private modalService: BsModalService) {
@@ -67,6 +68,10 @@ export class ActionItemListComponent implements OnInit {
         this.loadActionItems();
       });
     }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
 }

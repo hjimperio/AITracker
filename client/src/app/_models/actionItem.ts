@@ -1,23 +1,17 @@
 export interface ActionItem {
     id: number;
-    category: string;
+    region: string;
     division: string;
-    request: string;
-    dateCreated: string;
     internalEmailSubject: string;
-    assignedToId: number;
+    externalEmailSubject: string;
     workOrderTypeRequest: string;
     feedback: boolean;
     notes: string;
-    tgocp: string;
     taskNumber: string;
     actionItemNumber: string;
-    deliveryManagerSupportId: number;
-    externalEmailSubject: string;
-    dateStarted: string;
-    currentTeamOwner: string;
-    currentIndividualAssigned: string;
-    remarks: string;
+    aiCreatedBy: number;
+    dateCreated: Date;
+    dateStarted: Date;
+    dateResolved: Date;
     mapStatus: string;
-    dateResolved: string;
 }

@@ -20,10 +20,15 @@
             <tab heading="Employee">
               <div class="card">
                 <div class="card-body">
-                  <app-text-input
-                    [formControl]="editActionItemForm.controls['category']"
-                    [label]="'Category'"
-                  ></app-text-input>
+                  <div class="form-group">
+                    <label for="region">Region</label>
+                    <select class="form-control" formControlName="region">
+                      <option value="" disabled selected>Select your option</option>
+                      <option value="ASPAC">ASPAC</option>
+                      <option value="EMEA">EMEA</option>
+                      <option value="NAUS">NAUS</option>
+                    </select>
+                  </div>
                   <div class="form-group">
                     <label for="division">Division</label>
                     <select class="form-control" formControlName="division">
@@ -34,24 +39,13 @@
                     </select>
                   </div>
                   <app-text-input
-                    [formControl]="editActionItemForm.controls['request']"
-                    [label]="'Request'"
-                  ></app-text-input>
-                  <app-text-input
                     [formControl]="editActionItemForm.controls['internalEmailSubject']"
-                    [label]="'Internal Email Subject'"
-                  ></app-text-input>
+                    [label]="'Internal Email Subject'"></app-text-input>
+                  <app-text-input
+                    [formControl]="editActionItemForm.controls['externalEmailSubject']"
+                    [label]="'External Email Subject'"></app-text-input>
                   <div class="form-group">
-                    <label for="assignedToId">Assigned To</label>
-                    <select class="form-control" formControlName="assignedToId">
-                      <option value="" disabled selected>Select Employee</option>
-                      <option *ngFor="let employee of employees" value="{{employee.id}}">
-                        {{employee.firstName}} {{employee.lastName}}</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="workOrderTypeRequest"
-                      >Work Order Type Request</label>
+                    <label for="workOrderTypeRequest">Work Order Type Request</label>
                     <select
                       class="form-control"
                       formControlName="workOrderTypeRequest">
@@ -73,20 +67,16 @@
                       <option value="false">No</option>
                     </select>
                   </div>
+                  <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea class="form-control" formControlName="notes" rows="2"></textarea>
+                  </div>
                 </div>
               </div>
             </tab>
             <tab heading="DMS">
               <div class="card">
                 <div class="card-body">
-                  <div class="form-group">
-                    <label for="notes">History</label>
-                    <textarea
-                      class="form-control"
-                      formControlName="notes"
-                      rows="2"
-                    ></textarea>
-                  </div>
                   <app-text-input
                     [formControl]="editActionItemForm.controls['taskNumber']"
                     [label]="'Task Number'"
@@ -96,10 +86,10 @@
                     [label]="'Action Item Number'"
                   ></app-text-input>
                   <div class="form-group">
-                    <label for="deliveryManagerSupportId">Delivery Manager</label>
+                    <label for="aiCreatedBy">Delivery Manager</label>
                     <select
                       class="form-control"
-                      formControlName="deliveryManagerSupportId">
+                      formControlName="aiCreatedBy">
                       <option value="1">John Oswald Junio</option>
                       <option value="2">Menchie Ronquillo</option>
                       <option value="3">Jonalyn Bula</option>
@@ -108,33 +98,16 @@
                 </div>
               </div>
             </tab>
-            <tab heading="SCJ Info">
+            <tab heading="Status">
               <div class="card">
                 <div class="card-body">
-                  <app-text-input
-                    [formControl]="editActionItemForm.controls['externalEmailSubject']"
-                    [label]="'External Email Subject'"
-                  ></app-text-input>
                   <app-date-input
                     [formControl]="editActionItemForm.controls['dateStarted']"
                     [label]="'Date Started'"
                   ></app-date-input>
-                  <app-text-input
-                    [formControl]="editActionItemForm.controls['currentTeamOwner']"
-                    [label]="'Current Team Owner'"
-                  ></app-text-input>
-                  <app-text-input
-                    [formControl]="editActionItemForm.controls['currentIndividualAssigned']"
-                    [label]="'Current Individual Assigned'"
-                  ></app-text-input>
-                  <div class="form-group">
-                    <label for="remarks">Remarks</label>
-                    <textarea
-                      class="form-control"
-                      formControlName="remarks"
-                      rows="2"
-                    ></textarea>
-                  </div>
+                  <app-date-input
+                    [formControl]="editActionItemForm.controls['dateResolved']"
+                    [label]="'Date Resolved'"></app-date-input>
                   <div class="form-group">
                     <label for="mapStatus">Map Status</label>
                     <select class="form-control" formControlName="mapStatus">
@@ -143,9 +116,6 @@
                       <option value="pending">Pending</option>
                     </select>
                   </div>
-                  <app-date-input
-                    [formControl]="editActionItemForm.controls['dateResolved']"
-                    [label]="'Date Resolved'"></app-date-input>
                 </div>
               </div>
             </tab>

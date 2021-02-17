@@ -8,6 +8,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [],
@@ -20,9 +22,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     TabsModule.forRoot(),
     NgxDatatableModule,
     BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
     PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    NgxChartsModule
   ],
   exports: [
     BsDropdownModule,
@@ -30,9 +34,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     TabsModule,
     NgxDatatableModule,
     BsDatepickerModule,
+    TimepickerModule,
     PaginationModule,
     ButtonsModule,
-    ModalModule
+    ModalModule,
+    NgxChartsModule
   ]
 })
 export class SharedModule { }

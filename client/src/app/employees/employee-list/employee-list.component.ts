@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Employee } from 'src/app/_models/employee';
@@ -18,8 +19,10 @@ export class EmployeeListComponent implements OnInit {
   pagination: Pagination;
   userParams: UserParams;
   user: User;
+  modalRef: BsModalRef;
 
-  constructor(private employeeService: EmployeesService, private accountService: AccountService) { 
+  constructor(private employeeService: EmployeesService, private accountService: AccountService,
+    private modalService: BsModalService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
       this.userParams = new UserParams(user);
@@ -45,6 +48,10 @@ export class EmployeeListComponent implements OnInit {
   pageChanged(event: any) {
     this.userParams.pageNumber = event.page;
     this.loadEmployees();
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
 }

@@ -1,68 +1,49 @@
-<div class="container mt-3">
-    <div class="row mb-3">
-      <button routerLink='/action-item/add' class="btn btn-success">Add Action Item</button>
+<div class="container">
+  <h2 class="mb-6">ACTION ITEMS</h2>
+  <hr>
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <button routerLink='/action-item/add' class="btn btn-success mr-3">Add Action Item</button>
+      <button type="button" class="btn btn-primary" (click)="openModal(template)">Apply Filters</button>
     </div>
-    <form #form="ngForm" class="form-inline mb-3" (ngSubmit)="loadActionItems()" autocomplete="off">
-      <div class="form-group">
-        <label>Action Item Number: </label>
-        <input type="text" class="form-control ml-1" style="width: 130px;" name="actionItemNumber" 
-            [(ngModel)]="actionItemParams.actionItemNumber">
-      </div>
-      <button class="btn btn-primary ml-1" type="submit" [disabled]="!form.dirty">Apply Filters</button>
-      <button (click)="resetFilters()" class="btn btn-danger ml-1" type="submit">Reset Filters</button>
-      <div class="col">
-          <div class="btn-group float-right">
-              <button class="btn btn-primary" 
-                  type="button"
-                  name="orderBy" 
-                  (click)="loadActionItems()"
-                  btnRadio='created'
-                  [(ngModel)]="actionItemParams.orderBy">Date Created</button>
-  
-              <button class="btn btn-primary" 
-                  type="button"
-                  name="orderBy" 
-                  (click)="loadActionItems()"
-                  btnRadio='id'
-                  [(ngModel)]="actionItemParams.orderBy">By ID</button>
-          </div>
-      </div>
-  </form>
-</div>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-              <th scope="col">Category</th>
-              <th scope="col">Action Item Number</th>
-              <th scope="col">Internal Subject</th>
-              <th scope="col">Work Order Type</th>
-              <th scope="col">Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let actionItem of actionItems">
-              <th scope="row">{{actionItem.category}}</th>
-              <td>{{actionItem.actionItemNumber}}</td>
-              <td>{{actionItem.internalEmailSubject}}</td>
-              <td>{{actionItem.workOrderTypeRequest}}</td>
-              <td>
-                <button  class="btn btn-info mr-3" (click)="infoActionItem(actionItem.id)">
-                  <i class="fa fa-info-circle"></i>
-                </button>
-                <button routerLink='/action-item/edit/{{actionItem.id}}' class="btn btn-primary mr-3">
-                  <i class="fa fa-edit"></i>
-                </button>
-                <button class="btn btn-danger" (click)="deleteActionItem(actionItem.id)">
-                  <i class="fa fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-    </table>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table .table-responsive{-sm|-md|-lg|-xl} table-bordered">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Region</th>
+            <th scope="col">Action Item Number</th>
+            <th scope="col">Internal Subject</th>
+            <th scope="col">Work Order Type</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let actionItem of actionItems">
+            <td scope="row">{{actionItem.region}}</td>
+            <td>{{actionItem.actionItemNumber}}</td>
+            <td>{{actionItem.internalEmailSubject}}</td>
+            <td>{{actionItem.workOrderTypeRequest}}</td>
+            <td class="text-center">
+              <button  class="btn btn-info mr-3" (click)="infoActionItem(actionItem.id)">
+                <i class="fa fa-info-circle"></i>
+              </button>
+              <button routerLink='/action-item/edit/{{actionItem.id}}' class="btn btn-primary mr-3">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button class="btn btn-danger" (click)="deleteActionItem(actionItem.id)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-  <div class="d-flex justify-content-center" *ngIf="pagination">
+<div class="d-flex justify-content-center" *ngIf="pagination">
     <pagination 
         [boundaryLinks]="true" 
         [totalItems]="pagination.totalItems"
@@ -78,15 +59,23 @@
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <h4 class="modal-title pull-left">Add Filters</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    Testing
+    <form #form="ngForm" (ngSubmit)="loadActionItems()" id="form" autocomplete="off">
+      <div class="form-group">
+        <label>Action Item Number:</label>
+        <input type="text" class="form-control" style="width: 130px;" name="actionItemNumber" 
+            [(ngModel)]="actionItemParams.actionItemNumber">
+      </div>
+    </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
+    <button class="btn btn-primary" form="form" type="submit" [disabled]="!form.dirty">Apply Filters</button>
+    <button (click)="resetFilters()" class="btn btn-warning ml-1" type="submit">Reset Filters</button>
+    <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Close</button>
   </div>
 </ng-template>
