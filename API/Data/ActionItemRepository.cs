@@ -35,7 +35,8 @@ namespace API.Data
             var query = _context.ActionItems.AsQueryable();
             
             //query = query.Where(u => u.UserName != userParams.CurrentUsername);
-            query = query.Where(a => a.MapStatus == actionItemParams.MapStatus);
+            if (actionItemParams.MapStatus != "all")
+                query = query.Where(a => a.MapStatus == actionItemParams.MapStatus);
 
             if (actionItemParams.ActionItemNumber != null)
                 query = query.Where(a => a.ActionItemNumber == actionItemParams.ActionItemNumber);
@@ -56,6 +57,17 @@ namespace API.Data
                     actionItemParams.PageNumber, actionItemParams.PageSize);
         }
 
+        public async Task<ActionItem> GetActionItemById(int actionItemId)
+        {
+            return await _context.ActionItems.SingleOrDefaultAsync(x => x.Id == actionItemId);
+        }
+
+        public async Task<ActionItem> GetExistingActionItem(string actionItemNumber)
+        {
+            return await _context.ActionItems
+                .FirstOrDefaultAsync(x => x.ActionItemNumber == actionItemNumber);
+        }
+
         public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
@@ -74,17 +86,6 @@ namespace API.Data
         public void Update(ActionItem actionItem)
         {
             _context.Entry(actionItem).State = EntityState.Modified;
-        }
-
-        public async Task<ActionItem> GetActionItemById(int actionItemId)
-        {
-            return await _context.ActionItems.SingleOrDefaultAsync(x => x.Id == actionItemId);
-        }
-
-        public async Task<ActionItem> GetExistingActionItem(string actionItemNumber)
-        {
-            return await _context.ActionItems
-                .FirstOrDefaultAsync(x => x.ActionItemNumber == actionItemNumber);
         }
     }
 }

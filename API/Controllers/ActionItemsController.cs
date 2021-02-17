@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -52,6 +51,7 @@ namespace API.Controllers
                 return BadRequest("Existing AI already entered");
 
             var actionItem = _mapper.Map(actionItemAddDto, new ActionItem {});
+            actionItem.AppUserId = User.GetUserId();
             _actionItemRepository.Add(actionItem);
 
             if (await _actionItemRepository.SaveAllAsync()) return NoContent();

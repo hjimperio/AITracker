@@ -7,7 +7,8 @@
         "LastName": "Raymundo",
         "Position": "Cloud Applications Consultant",
         "DateHired": "2014-06-24",
-        "HomeAddress": "Cavite"
+        "HomeAddress": "Cavite",
+        "Gender": "Female"
     },
     {
         "UserName": "rsombilon",
@@ -17,6 +18,29 @@
         "LastName": "Sombilon",
         "Position": "Cloud Applications Consultant",
         "DateHired": "2016-06-24",
-        "HomeAddress": "Manila"
+        "HomeAddress": "Manila",
+        "Gender": "Male"
+    },
+    {
+        "UserName": "imiclat",
+        "Created": "2020-06-25",
+        "LastActive": "2020-06-22",
+        "FirstName": "Ivan Rodin",
+        "LastName": "Miclat",
+        "Position": "Associate Cloud Applications Consultant",
+        "DateHired": "2019-06-04",
+        "HomeAddress": "Sta. Mesa",
+        "Gender": "Male"
+    },
+    {
+        "UserName": "himperio",
+        "Created": "2020-06-25",
+        "LastActive": "2020-06-22",
+        "FirstName": "Harold James",
+        "LastName": "Imperio",
+        "Position": "Associate Cloud Applications Consultant",
+        "DateHired": "2018-12-03",
+        "HomeAddress": "Sampaloc",
+        "Gender": "Male"
     }
 ]

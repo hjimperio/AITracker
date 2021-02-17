@@ -8,6 +8,7 @@ namespace API.DTOs
         public string Username { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
+        public string Gender { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Position { get; set; }

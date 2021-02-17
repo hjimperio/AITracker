@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210216050931_IdentityAdded")]
+    partial class IdentityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,11 +27,17 @@ namespace API.Data.Migrations
                     b.Property<string>("ActionItemNumber")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("AiCreatedBy")
+                    b.Property<int>("AssignedToId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Category")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CurrentIndividualAssigned")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CurrentTeamOwner")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("TEXT");
@@ -39,6 +47,9 @@ namespace API.Data.Migrations
 
                     b.Property<DateTime>("DateStarted")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("DeliveryManagerSupportId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Division")
                         .HasColumnType("TEXT");
@@ -58,7 +69,13 @@ namespace API.Data.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Region")
+                    b.Property<string>("Remarks")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Request")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TGOCP")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TaskNumber")
@@ -68,8 +85,6 @@ namespace API.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.ToTable("ActionItems");
                 });
@@ -292,17 +307,6 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("API.Entities.ActionItem", b =>
-                {
-                    b.HasOne("API.Entities.AppUser", "AppUser")
-                        .WithMany("ActionItems")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("API.Entities.AppUserRole", b =>
                 {
                     b.HasOne("API.Entities.AppRole", "Role")
@@ -365,8 +369,6 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
-                    b.Navigation("ActionItems");
-
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
