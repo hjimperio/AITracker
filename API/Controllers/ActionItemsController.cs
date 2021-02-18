@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -50,8 +51,27 @@ namespace API.Controllers
             if (actionItemChecker != null)
                 return BadRequest("Existing AI already entered");
 
+            var elapsedWorkOrders = new List<string>() {
+                "Change Request", "Clone", "Base"
+            };
             var actionItem = _mapper.Map(actionItemAddDto, new ActionItem {});
             actionItem.AppUserId = User.GetUserId();
+            actionItem.DueDate = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "SLO");
+            actionItem.SLODays = GetDays(actionItem.WorkOrderTypeRequest, "SLO");
+            actionItem.ElapsedDueDate = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "Elapsed");
+            actionItem.TargetElapsedDays = 
+                (elapsedWorkOrders.Contains(actionItem.WorkOrderTypeRequest)) ? GetDays(actionItem.WorkOrderTypeRequest, "Elapsed") : 0;
+
+            if (actionItem.DateResolved > actionItem.DateStarted) 
+            {
+                var date = actionItem.DateStarted.CalculateElapsedDays(actionItem.DateResolved);
+                actionItem.MetSLO = (date.TotalDays < actionItem.SLODays) ? true : false;
+                actionItem.MetElapsedTarget = (date.TotalDays < actionItem.SLODays) ? true : false;
+                actionItem.DaysAndHoursSpent = 
+                    $"{date.TotalDays} days, {date.TotalHours} hours, {date.TotalMinutes}";
+                actionItem.ElapsedDays = date.TotalDays;
+            }
+
             _actionItemRepository.Add(actionItem);
 
             if (await _actionItemRepository.SaveAllAsync()) return NoContent();
@@ -76,7 +96,25 @@ namespace API.Controllers
                     return BadRequest("Existing AI already entered");
             }
 
+            var elapsedWorkOrders = new List<string>() {
+                "Change Request", "Clone", "Base"
+            };
             _mapper.Map(actionItemUpdateDto, actionItem);
+            actionItem.DueDate = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "SLO");
+            actionItem.SLODays = GetDays(actionItem.WorkOrderTypeRequest, "SLO");
+            actionItem.ElapsedDueDate = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "Elapsed");
+            actionItem.TargetElapsedDays = 
+                (elapsedWorkOrders.Contains(actionItem.WorkOrderTypeRequest)) ? GetDays(actionItem.WorkOrderTypeRequest, "Elapsed") : 0;
+
+            if (actionItem.DateResolved > actionItem.DateStarted) 
+            {
+                var date = actionItem.DateStarted.CalculateElapsedDays(actionItem.DateResolved);
+                actionItem.MetSLO = (date.TotalDays < actionItem.SLODays) ? true : false;
+                actionItem.MetElapsedTarget = (date.TotalDays < actionItem.SLODays) ? true : false;
+                actionItem.DaysAndHoursSpent = 
+                    $"{date.TotalDays} days, {date.TotalHours} hours, {date.TotalMinutes}";
+                actionItem.ElapsedDays = date.TotalDays;
+            }
             _actionItemRepository.Update(actionItem);
 
             if (await _actionItemRepository.SaveAllAsync()) return Ok(); 
@@ -97,6 +135,43 @@ namespace API.Controllers
             if (await _actionItemRepository.SaveAllAsync()) return Ok();
 
             return BadRequest("Nothing is deleted");
+        }
+
+        [HttpGet("sample/{actionItemId}")]
+        public async Task<ActionResult> SampleCode(int actionItemId)
+        {
+            var actionItem = await _actionItemRepository.GetActionItem(actionItemId);
+            var dateSample = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "SLO");
+            var dateSampleElapsed = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "Elapsed");
+            var elapsedDays = actionItem.DateStarted.CalculateElapsedDays(actionItem.DateResolved);
+
+            return Ok(elapsedDays);
+        }
+
+        private int GetDays(string workOrder, string predicate)
+        {
+            var days = 0;
+
+            switch(workOrder)
+            {
+                case "Change Request":
+                    days = (predicate == "SLO") ? 2 : 1;
+                    break;
+                case "Clone":
+                    days = (predicate == "SLO") ? 7 : 2;
+                    break;
+                case "Base":
+                    days = (predicate == "SLO") ? 10 : 3;
+                    break;
+                case "Complex":
+                    days = 13;
+                    break;
+                case "FS Complex":
+                    days = 15;
+                    break;
+            }
+
+            return days;
         }
     }
 }

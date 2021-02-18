@@ -2,7 +2,7 @@ using System;
 
 namespace API.Entities
 {
-    public class ActionItem
+    public class ActionItem : AIElapsedData
     {
         public int Id { get; set; }
         public string Region { get; set; }

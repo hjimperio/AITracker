@@ -35,16 +35,37 @@ namespace API.Data
             var query = _context.ActionItems.AsQueryable();
             
             //query = query.Where(u => u.UserName != userParams.CurrentUsername);
+
             if (actionItemParams.MapStatus != "all")
                 query = query.Where(a => a.MapStatus == actionItemParams.MapStatus);
 
             if (actionItemParams.ActionItemNumber != null)
                 query = query.Where(a => a.ActionItemNumber == actionItemParams.ActionItemNumber);
-            
-            // var minDob = DateTime.Today.AddYears(-actionItemParams.MaxAge - 1);
-            // var maxDob = DateTime.Today.AddYears(-actionItemParams.MinAge);
 
-            // query = query.Where( u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+            if (actionItemParams.AICreatedBy > 0)
+                query = query.Where(a => a.AiCreatedBy == actionItemParams.AICreatedBy);
+
+            if (actionItemParams.InternalEmailSubject != null)
+                query = query.Where(a => a.InternalEmailSubject.Contains(actionItemParams.InternalEmailSubject));
+
+            if (actionItemParams.ExternalEmailSubject != null)
+                query = query.Where(a => a.ExternalEmailSubject.Contains(actionItemParams.ExternalEmailSubject));
+
+            if (actionItemParams.MetSLO != null)
+                query = (actionItemParams.MetSLO == "Yes") 
+                ? query.Where(a => a.MetSLO)
+                : query.Where(a => !a.MetSLO);
+
+            if (actionItemParams.MetElapsedTarget != null)
+                query = (actionItemParams.MetSLO == "Yes") 
+                ? query.Where(a => a.MetElapsedTarget)
+                : query.Where(a => !a.MetElapsedTarget);
+            
+            // query = query.Where( u => u.DateStarted >= actionItemParams.DateStartedFrom && 
+            //     u.DateStarted <= actionItemParams.DateStartedTo);
+
+            // query = query.Where( u => u.DateResolved >= actionItemParams.DateResolvedFrom && 
+            //     u.DateStarted <= actionItemParams.DateStartedTo);
 
             query = actionItemParams.OrderBy switch
             {

@@ -17,5 +17,8 @@ namespace API.DTOs
         public DateTime DateStarted { get; set; }
         public DateTime DateResolved { get; set; }
         public string MapStatus { get; set; }
+        
+        // Elapsed Data
+        public string Reason { get; set; }
     }
 }
