@@ -88,9 +88,7 @@
                     class="form-control"
                     formControlName="aiCreatedBy">
                     <option value="" disabled selected>Select DMS</option>
-                    <option value="1">John Oswald Junio</option>
-                    <option value="2">Menchie Ronquillo</option>
-                    <option value="3">Jonalyn Bula</option>
+                    <option *ngFor="let employee of employees" value="{{employee.id}}">{{employee.firstName}} {{employee.lastName}}</option>
                   </select>
                 </div>
               </div>
@@ -99,12 +97,16 @@
           <tab heading="Status">
             <div class="card">
               <div class="card-body">
-                <app-date-input
-                  [formControl]="addActionItemForm.controls['dateStarted']"
-                  [label]="'Date Started'"></app-date-input>
-                <app-date-input
-                  [formControl]="addActionItemForm.controls['dateResolved']"
-                  [label]="'Date Resolved'"></app-date-input>
+                <div class="form-group">
+                  <label for="dateStarted">Date Started</label>
+                  <input class="form-control" formControlName="dateStarted" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" placeholder="Date Started">
+                  <owl-date-time #dt [hour12Timer]="true"></owl-date-time>
+                </div>
+                <div class="form-group">
+                  <label for="dateResolved">Date Resolved</label>
+                  <input class="form-control" formControlName="dateResolved" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Resolved">
+                  <owl-date-time #dt2></owl-date-time>
+                </div>
                 <div class="form-group">
                   <label for="mapStatus">Map Status</label>
                   <select class="form-control" formControlName="mapStatus">
@@ -122,9 +124,9 @@
     </div>
   </div>
 </div>
-<div class="row mt-4">
+<!-- <div class="row mt-4">
   <p>Form value: {{ addActionItemForm.value | json }}</p>
   <p>Form status: {{ addActionItemForm.status | json }}</p>
-</div>
+</div> -->
 
  

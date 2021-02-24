@@ -25,7 +25,7 @@ export class ActionItemListComponent implements OnInit {
 
   constructor(private actionItemService: ActionItemService, private toastr: ToastrService, 
     private modalService: BsModalService) {
-    this.actionItemParams = new ActionItemParams(this.user);
+    this.actionItemParams = this.actionItemService.getActionItemParams();
   }
 
   ngOnInit(): void {
@@ -33,6 +33,7 @@ export class ActionItemListComponent implements OnInit {
   }
 
   loadActionItems() {
+    this.actionItemService.setActionItemParams(this.actionItemParams);
     this.actionItemService.getActionItems(this.actionItemParams).subscribe(response => {
       this.actionItems = response.result;
       this.pagination = response.pagination;
@@ -40,12 +41,13 @@ export class ActionItemListComponent implements OnInit {
   }
 
   resetFilters() {
-    this.actionItemParams = new ActionItemParams(this.user);
+    this.actionItemParams = this.actionItemService.resetActionItemParams();
     this.loadActionItems();
   }
 
   pageChanged(event: any) {
     this.actionItemParams.pageNumber = event.page;
+    this.actionItemService.setActionItemParams(this.actionItemParams);
     this.loadActionItems();
   }
 

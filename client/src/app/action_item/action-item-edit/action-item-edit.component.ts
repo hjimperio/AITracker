@@ -44,11 +44,11 @@ export class ActionItemEditComponent implements OnInit {
       workOrderTypeRequest: ['', Validators.required],
       feedback: ['', Validators.required],
       notes: ['', Validators.required],
-      taskNumber: ['', Validators.required],
-      actionItemNumber: ['', Validators.required],
-      aiCreatedBy: ['', Validators.required],
-      dateStarted: ['', Validators.required],
-      dateResolved: ['', Validators.required],
+      taskNumber: ['', Validators.nullValidator],
+      actionItemNumber: ['', Validators.nullValidator],
+      aiCreatedBy: ['', Validators.nullValidator],
+      dateStarted: [new Date(), Validators.required],
+      dateResolved: [new Date(), Validators.nullValidator],
       mapStatus: ['', Validators.required]
     });
   }
@@ -57,9 +57,7 @@ export class ActionItemEditComponent implements OnInit {
     this.actionItemService.getActionItem(this.actionItemId)
       .subscribe(actionItem => {
         this.actionItem = actionItem;
-        delete this.actionItem.id;
-        delete this.actionItem.dateCreated;
-        this.editActionItemForm.setValue(this.actionItem);
+        this.editActionItemForm.patchValue(this.actionItem);
         this.editActionItemForm.patchValue({
           dateStarted: new Date(this.actionItem.dateStarted),
           dateResolved: new Date(this.actionItem.dateResolved)

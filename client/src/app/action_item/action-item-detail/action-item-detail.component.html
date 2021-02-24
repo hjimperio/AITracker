@@ -1,68 +1,123 @@
 <div class="modal-header">
-    <h4 class="modal-title pull-left">{{actionItem.taskNumber}}</h4>
+    <h4 class="modal-title pull-left" 
+      *ngIf="actionItem?.taskNumber && actionItem?.actionItemNumber">
+        {{actionItem?.taskNumber}} - {{actionItem?.actionItemNumber}}</h4>
+    <h4 class="modal-title pull-left" 
+      *ngIf="!actionItem?.taskNumber && !actionItem?.actionItemNumber">
+        AI Request Pending</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div class="form-group mb-3">
-      <label for="category" class="form-label">Region</label>
-      <input type="text" class="form-control" value="{{actionItem.region}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="division" class="form-label">Division</label>
-      <input type="text" class="form-control" value="{{actionItem.division}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="dateCreated" class="form-label">Date Created</label>
-      <input type="text" class="form-control" value="{{actionItem.dateCreated | date: 'dd MMM yyyy'}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="internalEmailSubject" class="form-label">Internal Email Subject</label>
-      <input type="text" class="form-control" value="{{actionItem.internalEmailSubject}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="externalEmailSubject" class="form-label">External Email Subject</label>
-      <input type="text" class="form-control" value="{{actionItem.externalEmailSubject}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="workOrderTypeRequest" class="form-label">Work Order Type Request</label>
-      <input type="text" class="form-control" value="{{actionItem.workOrderTypeRequest}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="notes" class="form-label">Notes</label>
-      <textarea class="form-control" value="{{actionItem.notes}}" rows="2" disabled>
-      </textarea>
-    </div>
-    <div class="form-group mb-3">
-      <label for="feedback" class="form-label">Feedback?</label>
-      <input type="text" class="form-control" value="{{feedback}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="taskNumber" class="form-label">Task Number</label>
-      <input type="text" class="form-control" value="{{actionItem?.taskNumber}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="actionItemNumber" class="form-label">Action Item Number</label>
-      <input type="text" class="form-control" value="{{actionItem?.actionItemNumber}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="aiCreatedBy" class="form-label">AI Created By</label>
-      <input type="text" class="form-control" value="{{actionItem?.aiCreatedBy}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="dateStarted" class="form-label">Date Started</label>
-      <input type="text" class="form-control" value="{{actionItem.dateStarted | date: 'dd MMM yyyy'}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="dateResolved" class="form-label">Date Resolved</label>
-      <input type="text" class="form-control" value="{{actionItem.dateResolved | date: 'dd MMM yyyy'}}" disabled>
-    </div>
-    <div class="form-group mb-3">
-      <label for="mapStatus" class="form-label">Map Status</label>
-      <input type="text" class="form-control" value="{{actionItem.mapStatus | titlecase}}" disabled>
-    </div>
-  </div>
+    <tabset type="pills">
+      <tab heading="Request Info">
+        <table class="table table-responsive{-sm|-md|-lg|-xl} table-bordered table-sm mt-3">
+          <tbody>
+            <tr>
+              <th>Region</th>
+              <td>{{actionItem.region}}</td>
+            </tr>
+            <tr>
+              <th>Division</th>
+              <td>{{actionItem.division}}</td>
+            </tr>
+            <tr>
+              <th>Internal Email Subject</th>
+              <td>{{actionItem.internalEmailSubject}}</td>
+            </tr>
+            <tr>
+              <th>External Email Subject</th>
+              <td>{{actionItem.externalEmailSubject}}</td>
+            </tr>
+            <tr>
+              <th>Feedback?</th>
+              <td>{{feedback}}</td>
+            </tr>
+            <tr>
+              <th>Work Order Type Request</th>
+              <td>{{actionItem.workOrderTypeRequest}}</td>
+            </tr>
+            <tr>
+              <th>Notes</th>
+              <td>{{actionItem.notes}}</td>
+            </tr>
+            <tr>
+              <th>Date Started</th>
+              <td>{{actionItem.dateStarted | date: 'MMM d, y, h:mm a'}}</td>
+            </tr>
+            <tr>
+              <th>Date Resolved</th>
+              <td>{{actionItem.dateResolved | date: 'MMM d, y, h:mm a'}}</td>
+            </tr>
+            <tr>
+              <th>Map Status</th>
+              <td>{{actionItem.mapStatus | titlecase}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </tab>
+      <tab heading="DMS Data"> 
+        <table class="table table-responsive{-sm|-md|-lg|-xl} table-bordered table-sm mt-3">
+          <tbody>
+            <tr>
+              <th>Task Number</th>
+              <td>{{actionItem?.taskNumber}}</td>
+            </tr>
+            <tr>
+              <th>Action Item Number</th>
+              <td>{{actionItem?.actionItemNumber}}</td>
+            </tr>
+            <tr>
+              <th>AI Created By</th>
+              <td>{{actionItem?.aiCreatedByName}}</td>
+            </tr>
+          </tbody>
+        </table> 
+      </tab>
+      <tab heading="Elapsed Data"> 
+        <table class="table table-responsive{-sm|-md|-lg|-xl} table-bordered table-sm mt-3">
+          <tbody>
+            <tr>
+              <th>SCJON Due Date</th>
+              <td>{{actionItem?.dueDate | date: 'MMM d, y, h:mm a'}}</td>
+            </tr>
+            <tr>
+              <th>SLO Days</th>
+              <td>{{actionItem?.sloDays}}</td>
+            </tr>
+            <tr>
+              <th>Met SLO?</th>
+              <td>{{actionItem?.metSLO ? "Yes" : "No"}}</td>
+            </tr>
+            <tr>
+              <th>Elapsed Due Date</th>
+              <td>{{actionItem?.elapsedDueDate | date: 'MMM d, y, h:mm a'}}</td>
+            </tr>
+            <tr>
+              <th>Target Elapsed Days</th>
+              <td>{{actionItem?.targetElapsedDays}}</td>
+            </tr>
+            <tr>
+              <th>Met Elapsed Target?</th>
+              <td>{{actionItem?.metElapsedTarget ? "Yes" : "No"}}</td>
+            </tr>
+            <tr>
+              <th>Duration</th>
+              <td><p>{{actionItem?.daysAndHoursSpent}}</p></td>
+            </tr>
+            <tr>
+              <th>Elapsed Days</th>
+              <td>{{actionItem?.elapsedDays}}</td>
+            </tr>
+            <tr>
+              <th>Reason if elapsed</th>
+              <td><p>{{actionItem?.reason}}</p></td>
+            </tr>
+          </tbody>
+        </table> 
+      </tab>
+    </tabset>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="bsModalRef.hide()">Close</button>
 </div>

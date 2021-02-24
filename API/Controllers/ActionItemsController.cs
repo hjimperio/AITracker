@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -17,18 +18,28 @@ namespace API.Controllers
     {
         private readonly IActionItemRepository _actionItemRepository;
         private readonly IMapper _mapper;
-        public ActionItemsController(IActionItemRepository actionItemRepository, IMapper mapper)
+        private readonly IUserRepository _userRepository;
+        public ActionItemsController(IActionItemRepository actionItemRepository, IUserRepository userRepository, IMapper mapper)
         {
+            _userRepository = userRepository;
             _mapper = mapper;
             _actionItemRepository = actionItemRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActionItemDto>>> GetActionItems([FromQuery]ActionItemParams actionItemParams)
+        public async Task<ActionResult<IEnumerable<ActionItemDto>>> GetActionItems([FromQuery] ActionItemParams actionItemParams)
         {
             var actionItem = await _actionItemRepository.GetActionItems(actionItemParams);
-            
-            Response.AddPaginationHeader(actionItem.CurrentPage, actionItem.PageSize, 
+            var users = await _userRepository.GetUsers();
+
+            actionItem.ForEach(x => {
+                if(x.AiCreatedBy != 0) {
+                    var user = users.SingleOrDefault(u => u.Id == x.AiCreatedBy);
+                    x.AICreatedByName = $"{user.FirstName} {user.LastName}";
+                }
+            });
+
+            Response.AddPaginationHeader(actionItem.CurrentPage, actionItem.PageSize,
                 actionItem.TotalCount, actionItem.TotalPages);
 
             return Ok(actionItem);
@@ -38,7 +49,16 @@ namespace API.Controllers
         public async Task<ActionResult<ActionItemDto>> GetActionItem(int actionItemId)
         {
             var actionItem = await _actionItemRepository.GetActionItem(actionItemId);
-                
+            var users = await _userRepository.GetUsers();
+
+            if (actionItem.AiCreatedBy != 0) {
+                var user = users.SingleOrDefault(u => u.Id == actionItem.AiCreatedBy);
+                if (user != null) {
+                    actionItem.AICreatedByName = $"{user.FirstName} {user.LastName}";
+                }  else {
+                    actionItem.AICreatedByName = "Nothing assigned";
+                }
+            }
             return actionItem;
         }
 
@@ -54,21 +74,24 @@ namespace API.Controllers
             var elapsedWorkOrders = new List<string>() {
                 "Change Request", "Clone", "Base"
             };
-            var actionItem = _mapper.Map(actionItemAddDto, new ActionItem {});
+
+            var actionItem = _mapper.Map(actionItemAddDto, new ActionItem { });
             actionItem.AppUserId = User.GetUserId();
+            actionItem.DateStarted = actionItem.DateStarted.ToLocalTime();
+            actionItem.DateResolved = actionItem.DateResolved.ToLocalTime();
             actionItem.DueDate = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "SLO");
             actionItem.SLODays = GetDays(actionItem.WorkOrderTypeRequest, "SLO");
             actionItem.ElapsedDueDate = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "Elapsed");
-            actionItem.TargetElapsedDays = 
+            actionItem.TargetElapsedDays =
                 (elapsedWorkOrders.Contains(actionItem.WorkOrderTypeRequest)) ? GetDays(actionItem.WorkOrderTypeRequest, "Elapsed") : 0;
 
-            if (actionItem.DateResolved > actionItem.DateStarted) 
+            if (actionItem.DateResolved > actionItem.DateStarted)
             {
                 var date = actionItem.DateStarted.CalculateElapsedDays(actionItem.DateResolved);
                 actionItem.MetSLO = (date.TotalDays < actionItem.SLODays) ? true : false;
-                actionItem.MetElapsedTarget = (date.TotalDays < actionItem.SLODays) ? true : false;
-                actionItem.DaysAndHoursSpent = 
-                    $"{date.TotalDays} days, {date.TotalHours} hours, {date.TotalMinutes}";
+                actionItem.MetElapsedTarget = (date.TotalDays < actionItem.TargetElapsedDays) ? true : false;
+                actionItem.DaysAndHoursSpent =
+                    $"{Decimal.Truncate((decimal)date.TotalDays)} days, {Math.Round(date.TotalHours, 3)} hours, {Math.Round(date.TotalMinutes, 3)} minutes";
                 actionItem.ElapsedDays = date.TotalDays;
             }
 
@@ -80,7 +103,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{actionItemId}")]
-        public async Task<ActionResult> UpdateActionItem(int actionItemId, ActionItemUpdateDto actionItemUpdateDto) 
+        public async Task<ActionResult> UpdateActionItem(int actionItemId, ActionItemUpdateDto actionItemUpdateDto)
         {
             var actionItem = await _actionItemRepository.GetActionItemById(actionItemId);
 
@@ -99,25 +122,28 @@ namespace API.Controllers
             var elapsedWorkOrders = new List<string>() {
                 "Change Request", "Clone", "Base"
             };
+            
             _mapper.Map(actionItemUpdateDto, actionItem);
+            actionItem.DateStarted = actionItem.DateStarted.ToLocalTime();
+            actionItem.DateResolved = actionItem.DateResolved.ToLocalTime();
             actionItem.DueDate = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "SLO");
             actionItem.SLODays = GetDays(actionItem.WorkOrderTypeRequest, "SLO");
             actionItem.ElapsedDueDate = actionItem.DateStarted.CalculateDueDate(actionItem.WorkOrderTypeRequest, "Elapsed");
-            actionItem.TargetElapsedDays = 
+            actionItem.TargetElapsedDays =
                 (elapsedWorkOrders.Contains(actionItem.WorkOrderTypeRequest)) ? GetDays(actionItem.WorkOrderTypeRequest, "Elapsed") : 0;
 
-            if (actionItem.DateResolved > actionItem.DateStarted) 
+            if (actionItem.DateResolved > actionItem.DateStarted)
             {
                 var date = actionItem.DateStarted.CalculateElapsedDays(actionItem.DateResolved);
                 actionItem.MetSLO = (date.TotalDays < actionItem.SLODays) ? true : false;
-                actionItem.MetElapsedTarget = (date.TotalDays < actionItem.SLODays) ? true : false;
-                actionItem.DaysAndHoursSpent = 
-                    $"{date.TotalDays} days, {date.TotalHours} hours, {date.TotalMinutes}";
+                actionItem.MetElapsedTarget = (date.TotalDays < actionItem.TargetElapsedDays) ? true : false;
+                actionItem.DaysAndHoursSpent =
+                    $"{Decimal.Truncate((decimal)date.TotalDays)} days, {Math.Round(date.TotalHours, 3)} hours, {Math.Round(date.TotalMinutes, 3)} minutes";
                 actionItem.ElapsedDays = date.TotalDays;
             }
             _actionItemRepository.Update(actionItem);
 
-            if (await _actionItemRepository.SaveAllAsync()) return Ok(); 
+            if (await _actionItemRepository.SaveAllAsync()) return Ok();
 
             return BadRequest("Nothing is updated");
         }
@@ -152,7 +178,7 @@ namespace API.Controllers
         {
             var days = 0;
 
-            switch(workOrder)
+            switch (workOrder)
             {
                 case "Change Request":
                     days = (predicate == "SLO") ? 2 : 1;

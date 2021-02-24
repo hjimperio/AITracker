@@ -27,6 +27,9 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DateInputComponent } from './_forms/date-input/date-input.component';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
+import { DateTimeInputComponent } from './_forms/date-time-input/date-time-input.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
     EmployeeAddComponent,
     EmployeeCardComponent,
     DateInputComponent,
-    TextInputComponent
+    TextInputComponent,
+    DateTimeInputComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -56,12 +61,15 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'en-PH'}
   ],
   bootstrap: [AppComponent],
   entryComponents: [ActionItemDetailComponent]

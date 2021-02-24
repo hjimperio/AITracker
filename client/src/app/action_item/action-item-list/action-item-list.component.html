@@ -9,22 +9,26 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <table class="table .table-responsive{-sm|-md|-lg|-xl} table-bordered">
+      <table class="table table-responsive{-sm|-md|-lg|-xl} table-bordered">
         <thead class="thead-light">
           <tr>
             <th scope="col">Region</th>
+            <th scope="col">Task Number</th>
             <th scope="col">Action Item Number</th>
             <th scope="col">Internal Subject</th>
             <th scope="col">Work Order Type</th>
+            <th scope="col">Status</th>
             <th scope="col">Options</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let actionItem of actionItems">
             <td scope="row">{{actionItem.region}}</td>
+            <td>{{actionItem.taskNumber}}</td>
             <td>{{actionItem.actionItemNumber}}</td>
             <td>{{actionItem.internalEmailSubject}}</td>
             <td>{{actionItem.workOrderTypeRequest}}</td>
+            <td>{{actionItem.mapStatus | titlecase}}</td>
             <td class="text-center">
               <button  class="btn btn-info mr-3" (click)="infoActionItem(actionItem.id)">
                 <i class="fa fa-info-circle"></i>
@@ -67,9 +71,58 @@
   <div class="modal-body">
     <form #form="ngForm" (ngSubmit)="loadActionItems()" id="form" autocomplete="off">
       <div class="form-group">
+        <label>Internal Email Subject:</label>
+        <input type="text" class="form-control" name="internalEmailSubject" 
+            [(ngModel)]="actionItemParams.internalEmailSubject">
+      </div>
+      <div class="form-group">
+        <label>External Email Subject:</label>
+        <input type="text" class="form-control" name="externalEmailSubject" 
+            [(ngModel)]="actionItemParams.externalEmailSubject">
+      </div>
+      <div class="form-group">
         <label>Action Item Number:</label>
-        <input type="text" class="form-control" style="width: 130px;" name="actionItemNumber" 
+        <input type="text" class="form-control" name="actionItemNumber" 
             [(ngModel)]="actionItemParams.actionItemNumber">
+      </div>
+      <div class="form-group">
+        <label>Task Number:</label>
+        <input type="text" class="form-control" name="taskNumber" 
+            [(ngModel)]="actionItemParams.taskNumber">
+      </div>
+      <div class="form-group">
+        <label>Work Order Type Request:</label>
+        <select [(ngModel)]="actionItemParams.workOrderTypeRequest" name="workOrderTypeRequest" class="form-control">
+          <option value="" disabled selected>Select option</option>
+          <option value="Change Request">Change Request</option>
+          <option value="Clone">Clone</option>
+          <option value="Base">Base</option>
+          <option value="Complex">Complex</option>
+          <option value="FS Complex">FS Complex</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Order By:</label>
+        <select [(ngModel)]="actionItemParams.orderBy" name="orderBy" class="form-control">
+          <option value="" disabled selected>Select option</option>
+          <option value="created">Date Created</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Met SLO?:</label>
+        <select [(ngModel)]="actionItemParams.metSLO" name="metSLO" class="form-control">
+          <option value="" disabled selected>Select option</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Met Elapsed Target?:</label>
+        <select [(ngModel)]="actionItemParams.metElapsedTarget" name="metElapsedTarget" class="form-control">
+          <option value="" disabled selected>Select option</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
       </div>
     </form>
   </div>

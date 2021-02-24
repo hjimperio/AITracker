@@ -1,3 +1,4 @@
+using System;
 using API.DTOs;
 using API.Entities;
 using AutoMapper;
@@ -13,7 +14,8 @@ namespace API.Helpers
             CreateMap<EmployeeUpdateDto, AppUser>();
             CreateMap<ActionItemAddDto, ActionItem>();
             CreateMap<ActionItemUpdateDto, ActionItem>();
-            CreateMap<ActionItem, ActionItemDto>();
+            CreateMap<ActionItem, ActionItemDto>()
+                .ForMember(dest => dest.ElapsedDays, opt => opt.MapFrom(a => Math.Round(a.ElapsedDays, 3)));
         }
     }
 }

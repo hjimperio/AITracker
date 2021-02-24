@@ -7,6 +7,13 @@ export class ActionItemParams {
     mapStatus = "all";
     orderBy = "created";
     actionItemNumber = "";
+    taskNumber = "";
+    internalEmailSubject = "";
+    externalEmailSubject = "";
+    workOrderTypeRequest = "";
+    metSLO = "";
+    metElapsedTarget = "";
+
 
     constructor(user?: User) {
         //this.gender = user.gender === 'female' ? 'male' : 'female';

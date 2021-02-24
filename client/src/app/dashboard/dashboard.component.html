@@ -1,0 +1,122 @@
+<div class="container">
+    <h2>DASHBOARD</h2>
+    <hr>
+    <div class="row mb-3">
+      <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Employees (Monthly)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{employeeNumbers}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-users fa-3x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Total Requests (Monthly)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{employeeNumbers}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-envelope fa-3x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Elapsed Items (Monthly)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{employeeNumbers}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa fa-calendar fa-3x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>    
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="mb-3">{{dateToday | date: 'MMMM'}}</h2>
+              <ngx-charts-bar-vertical
+                  [view]="view"
+                  [scheme]="colorScheme"
+                  [results]="single"
+                  [gradient]="gradient"
+                  [xAxis]="showXAxis"
+                  [yAxis]="showYAxis"
+                  [legend]="showLegend"
+                  [showXAxisLabel]="showXAxisLabel"
+                  [showYAxisLabel]="showYAxisLabel"
+                  [xAxisLabel]="xAxisLabel"
+                  [yAxisLabel]="yAxisLabel">
+              </ngx-charts-bar-vertical>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Open Items
+          </div>
+          <div class="card-body">
+            <table class="table table-responsive-sm table-bordered">
+              <thead>
+                <th>Sample</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sample</td>
+                </tr>
+                <tr>
+                  <td>Sample</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Elapsed Items
+          </div>
+          <div class="card-body">
+            <table class="table table-responsive-sm table-bordered">
+              <thead>
+                <th>Sample</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sample</td>
+                </tr>
+                <tr>
+                  <td>Sample</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

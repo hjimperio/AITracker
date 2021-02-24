@@ -1,13 +1,9 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ActionItem } from 'src/app/_models/actionItem';
 import { Employee } from 'src/app/_models/employee';
 import { Pagination } from 'src/app/_models/pagination';
-import { User } from 'src/app/_models/user';
-import { UserParams } from 'src/app/_models/userParams';
-import { AccountService } from 'src/app/_services/account.service';
 import { ActionItemService } from 'src/app/_services/action-items.service';
 import { EmployeesService } from 'src/app/_services/employees.service';
 
@@ -20,6 +16,7 @@ export class ActionItemAddComponent implements OnInit {
   addActionItemForm: FormGroup;
   employees: Employee[];
   pagination: Pagination;
+  mytime: Date;
 
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
     if (this.addActionItemForm.dirty) {
@@ -50,7 +47,7 @@ export class ActionItemAddComponent implements OnInit {
       aiCreatedBy: ['0', Validators.nullValidator],
       mapStatus: ['', Validators.required],
       dateStarted: ['', Validators.required],
-      dateResolved: ['2021-02-01', Validators.nullValidator]
+      dateResolved: [new Date(), Validators.nullValidator]
     });
   }
 

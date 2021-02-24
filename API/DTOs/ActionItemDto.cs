@@ -14,7 +14,7 @@ namespace API.DTOs
         public string Notes { get; set; }
         public string TaskNumber { get; set; }
         public string ActionItemNumber { get; set; }
-        public string AiCreatedBy { get; set; }
+        public int AiCreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateStarted { get; set; }
         public DateTime DateResolved { get; set; }
@@ -30,5 +30,9 @@ namespace API.DTOs
         public int TargetElapsedDays { get; set; }
         public double ElapsedDays { get; set; }
         public string Reason { get; set; }
+
+        // Info
+        public string AICreatedByName { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

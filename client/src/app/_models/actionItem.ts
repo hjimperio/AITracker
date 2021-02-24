@@ -14,4 +14,15 @@ export interface ActionItem {
     dateStarted: Date;
     dateResolved: Date;
     mapStatus: string;
+    dueDate: string;
+    sloDays: number;
+    metSLO: boolean;
+    elapsedDueDate: string;
+    metElapsedTarget: boolean;
+    daysAndHoursSpent: string;
+    targetElapsedDays: number;
+    elapsedDays: number;
+    reason?: string;
+    aiCreatedByName?: string;
+    createdBy?: string;
 }

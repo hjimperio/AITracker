@@ -4,6 +4,7 @@ import { ActionItemAddComponent } from './action_item/action-item-add/action-ite
 import { ActionItemDetailComponent } from './action_item/action-item-detail/action-item-detail.component';
 import { ActionItemEditComponent } from './action_item/action-item-edit/action-item-edit.component';
 import { ActionItemListComponent } from './action_item/action-item-list/action-item-list.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmployeeAddComponent } from './employees/employee-add/employee-add.component';
 import { EmployeeDetailComponent } from './employees/employee-detail/employee-detail.component';
 import { EmployeeEditComponent } from './employees/employee-edit/employee-edit.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
+      {path: 'dashboard', component: DashboardComponent},
       {path: 'employees', component: EmployeeListComponent},
       {path: 'employees/:username', component: EmployeeDetailComponent},
       {path: 'employee/add', component: EmployeeAddComponent},

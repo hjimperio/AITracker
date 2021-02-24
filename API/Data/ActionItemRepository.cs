@@ -36,6 +36,9 @@ namespace API.Data
             
             //query = query.Where(u => u.UserName != userParams.CurrentUsername);
 
+            if (actionItemParams.WorkOrderTypeRequest != null)
+                query = query.Where(a => a.WorkOrderTypeRequest == actionItemParams.WorkOrderTypeRequest);
+
             if (actionItemParams.MapStatus != "all")
                 query = query.Where(a => a.MapStatus == actionItemParams.MapStatus);
 
@@ -52,12 +55,12 @@ namespace API.Data
                 query = query.Where(a => a.ExternalEmailSubject.Contains(actionItemParams.ExternalEmailSubject));
 
             if (actionItemParams.MetSLO != null)
-                query = (actionItemParams.MetSLO == "Yes") 
+                query = (actionItemParams.MetSLO.ToLower() == "yes") 
                 ? query.Where(a => a.MetSLO)
                 : query.Where(a => !a.MetSLO);
 
             if (actionItemParams.MetElapsedTarget != null)
-                query = (actionItemParams.MetSLO == "Yes") 
+                query = (actionItemParams.MetElapsedTarget.ToLower() == "yes") 
                 ? query.Where(a => a.MetElapsedTarget)
                 : query.Where(a => !a.MetElapsedTarget);
             
@@ -85,6 +88,9 @@ namespace API.Data
 
         public async Task<ActionItem> GetExistingActionItem(string actionItemNumber)
         {
+            if (actionItemNumber == "")
+                return null;
+
             return await _context.ActionItems
                 .FirstOrDefaultAsync(x => x.ActionItemNumber == actionItemNumber);
         }

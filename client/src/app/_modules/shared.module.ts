@@ -10,19 +10,21 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
+    PopoverModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     }),
     TabsModule.forRoot(),
     NgxDatatableModule,
-    BsDatepickerModule.forRoot(),
-    TimepickerModule.forRoot(),
     PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),
@@ -35,6 +37,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     NgxDatatableModule,
     BsDatepickerModule,
     TimepickerModule,
+    PopoverModule,
     PaginationModule,
     ButtonsModule,
     ModalModule,
