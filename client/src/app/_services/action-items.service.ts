@@ -41,10 +41,11 @@ export class ActionItemService {
   }
 
   getActionItems(actionItemParams: ActionItemParams) {
-    var response = this.actionItemsCache.get(Object.values(actionItemParams).join('-'));
-    if (response) {
-      return of(response);
-    }
+    // var response = this.actionItemsCache.get(Object.values(actionItemParams).join('-'));
+    // if (response) {
+    //   console.log(this.actionItemsCache.values());
+    //   return of(response);
+    // }
 
     let params = getPaginationHeaders(actionItemParams.pageNumber, actionItemParams.pageSize);
 
@@ -57,22 +58,26 @@ export class ActionItemService {
     params = params.append('workOrderTypeRequest', actionItemParams.workOrderTypeRequest);
     params = params.append('metSLO', actionItemParams.metSLO);
     params = params.append('metElapsedTarget', actionItemParams.metElapsedTarget);
+    params = params.append('dateStartedFrom', actionItemParams.dateFromStarted);
+    params = params.append('dateStartedTo', actionItemParams.dateToStarted);
+    params = params.append('dateResolvedFrom', actionItemParams.dateFromResolved);
+    params = params.append('dateResolvedTo', actionItemParams.dateToResolved);
     
     return getPaginatedResult<ActionItem[]>(this.baseUrl + 'actionitems', params, this.http)
-      .pipe(map(response => {
-        this.actionItemsCache.set(Object.values(actionItemParams).join('-'), response);
-        return response;
-      }));
+      // .pipe(map(response => {
+      //   this.actionItemsCache.set(Object.values(actionItemParams).join('-'), response);
+      //   return response;
+      // }));
   }
 
   getActionItem(actionItemId: number) {
-    const actionItem = [...this.actionItemsCache.values()]
-      .reduce((arr, elem) => arr.concat(elem.result), [])
-      .find((actionItem: ActionItem) => actionItem.id === actionItemId);
+    // const actionItem = [...this.actionItemsCache.values()]
+    //   .reduce((arr, elem) => arr.concat(elem.result), [])
+    //   .find((actionItem: ActionItem) => actionItem.id === actionItemId);
 
-    if (actionItem) {
-      return of(actionItem);
-    }
+    // if (actionItem) {
+    //   return of(actionItem);
+    // }
     
     return this.http.get<ActionItem>(this.baseUrl + 'actionitems/' + actionItemId);
   }
@@ -81,6 +86,7 @@ export class ActionItemService {
     return this.http.post(this.baseUrl + 'actionitems', model).pipe(
       map((actionItem: ActionItem) => {
         //this.actionItems.push(model);
+        console.log(actionItem);
       })
     );
   }

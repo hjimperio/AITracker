@@ -22,6 +22,8 @@ export class ActionItemListComponent implements OnInit {
   user: User;
   bsModalRef: BsModalRef;
   modalRef: BsModalRef;
+  myTime: Date[] = [];
+  myTime2: Date[] = [];
 
   constructor(private actionItemService: ActionItemService, private toastr: ToastrService, 
     private modalService: BsModalService) {
@@ -33,6 +35,10 @@ export class ActionItemListComponent implements OnInit {
   }
 
   loadActionItems() {
+    this.actionItemParams.dateFromStarted = this.myTime.length > 0 ? this.myTime[0].toLocaleString() : "";
+    this.actionItemParams.dateToStarted = this.myTime.length > 0 ? this.myTime[1].toLocaleString() : "";
+    this.actionItemParams.dateFromResolved = this.myTime2.length > 0 ? this.myTime2[0].toLocaleString() : "";
+    this.actionItemParams.dateToResolved = this.myTime2.length > 0 ? this.myTime2[1].toLocaleString() : "";
     this.actionItemService.setActionItemParams(this.actionItemParams);
     this.actionItemService.getActionItems(this.actionItemParams).subscribe(response => {
       this.actionItems = response.result;
@@ -41,6 +47,8 @@ export class ActionItemListComponent implements OnInit {
   }
 
   resetFilters() {
+    this.myTime = [];
+    this.myTime2 = [];
     this.actionItemParams = this.actionItemService.resetActionItemParams();
     this.loadActionItems();
   }

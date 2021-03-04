@@ -1,131 +1,124 @@
 <div class="container">
-    <div class="row">
-      <div class="col-md-12">
+  <h2 class="mb-6">EDIT ACTION ITEM</h2>
+  <hr>
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <form
+        id="editActionItemForm"
+        [formGroup]="editActionItemForm"
+        (ngSubmit)="editActionItemForm.valid && updateActionItem()">
+        <div class="form-row mb-3">
+          <div class="col-md-6">
+            <label for="region">Region</label>
+            <select class="form-control" formControlName="region">
+              <option value="" disabled selected>Select your option</option>
+              <option selected value="ASPAC">ASPAC</option>
+              <option value="EMEA">EMEA</option>
+              <option value="NAUS">NAUS</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="division">Division</label>
+            <select class="form-control" formControlName="division">
+              <option value="" disabled selected>Select your option</option>
+              <option selected value="PRO">PRO</option>
+              <option value="CORE">CORE</option>
+              <option value="LS">LS</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <div class="col-md-6">
+            <app-text-input
+            [formControl]="editActionItemForm.controls['internalEmailSubject']"
+            [label]="'Internal Email Subject'"></app-text-input>
+          </div>
+          <div class="col-md-6">
+            <app-text-input
+            [formControl]="editActionItemForm.controls['externalEmailSubject']"
+            [label]="'External Email Subject'"></app-text-input>
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <div class="col-md-6">
+            <label for="workOrderTypeRequest">Work Order Type Request</label>
+            <select class="form-control" formControlName="workOrderTypeRequest">
+              <option value="" disabled selected>Select your option</option>
+              <option value="Change Request">Change Request</option>
+              <option value="Clone">Clone</option>
+              <option value="Base">Base</option>
+              <option value="Complex">Complex</option>
+              <option value="FS Complex">FS Complex</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="control-label" >Feedback?</label>
+            <select class="form-control" formControlName="feedback">
+              <option value="" disabled selected>Select your option</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <div class="col-md-12">
+            <label for="notes">Notes</label>
+            <textarea class="form-control"formControlName="notes" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <div class="col-md-4">
+            <app-text-input
+            [formControl]="editActionItemForm.controls['taskNumber']"
+            [label]="'Task Number'"></app-text-input>
+          </div>
+          <div class="col-md-4">
+            <app-text-input
+            [formControl]="editActionItemForm.controls['actionItemNumber']"
+            [label]="'Action Item Number'"></app-text-input>
+          </div>
+          <div class="col-md-4">
+            <label for="aiCreatedBy">AI Created By</label>
+            <select
+              class="form-control"
+              formControlName="aiCreatedBy">
+              <option value="" disabled selected>Select DMS</option>
+              <option *ngFor="let employee of employees" value="{{employee.id}}">{{employee.firstName}} {{employee.lastName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <div class="col-md-4">
+            <label for="dateStarted">Date Started</label>
+            <input class="form-control" formControlName="dateStarted" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" placeholder="Date Started">
+            <owl-date-time #dt [hour12Timer]="true"></owl-date-time>
+          </div>
+          <div class="col-md-4">
+            <label for="dateResolved">Date Resolved</label>
+            <input class="form-control" formControlName="dateResolved" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Resolved">
+            <owl-date-time #dt2></owl-date-time>
+          </div>
+          <div class="col-md-4">
+            <label for="mapStatus">Map Status</label>
+            <select class="form-control" formControlName="mapStatus">
+              <option value="" disabled selected>Select status</option>
+              <option value="completed">Completed</option>
+              <option value="open">Open</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+        </div>
         <button
-            [disabled]="(!editActionItemForm.valid && !editActionItemForm.dirty) || 
-              (editActionItemForm.valid && !editActionItemForm.dirty)"
-            form="editActionItemForm"
-            class="btn btn-success mb-2">
-            Update Action Item
+          [disabled]="(!editActionItemForm.valid && !editActionItemForm.dirty) || 
+            (editActionItemForm.valid && !editActionItemForm.dirty)"
+          form="editActionItemForm"
+          class="btn btn-success btn-block mb-2">
+          Update Action Item
         </button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <form
-          id="editActionItemForm"
-          [formGroup]="editActionItemForm"
-          (ngSubmit)="editActionItemForm.valid && updateActionItem()">
-          <tabset [justified]="true">
-            <tab heading="Employee">
-              <div class="card">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="region">Region</label>
-                    <select class="form-control" formControlName="region">
-                      <option value="" disabled selected>Select your option</option>
-                      <option value="ASPAC">ASPAC</option>
-                      <option value="EMEA">EMEA</option>
-                      <option value="NAUS">NAUS</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="division">Division</label>
-                    <select class="form-control" formControlName="division">
-                      <option value="" disabled selected>Select your option</option>
-                      <option value="PRO">PRO</option>
-                      <option value="CORE">CORE</option>
-                      <option value="LS">LS</option>
-                    </select>
-                  </div>
-                  <app-text-input
-                    [formControl]="editActionItemForm.controls['internalEmailSubject']"
-                    [label]="'Internal Email Subject'"></app-text-input>
-                  <app-text-input
-                    [formControl]="editActionItemForm.controls['externalEmailSubject']"
-                    [label]="'External Email Subject'"></app-text-input>
-                  <div class="form-group">
-                    <label for="workOrderTypeRequest">Work Order Type Request</label>
-                    <select
-                      class="form-control"
-                      formControlName="workOrderTypeRequest">
-                      <option value="" disabled selected>Select your option</option>
-                      <option value="Change Request">Change Request</option>
-                      <option value="Clone">Clone</option>
-                      <option value="Base">Base</option>
-                      <option value="Complex">Complex</option>
-                      <option value="FS Complex">FS Complex</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label" >Feedback?</label>
-                    <select
-                      class="form-control"
-                      formControlName="feedback">
-                      <option value="" disabled selected>Select your option</option>
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="notes">Notes</label>
-                    <textarea class="form-control" formControlName="notes" rows="2"></textarea>
-                  </div>
-                </div>
-              </div>
-            </tab>
-            <tab heading="DMS">
-              <div class="card">
-                <div class="card-body">
-                  <app-text-input
-                    [formControl]="editActionItemForm.controls['taskNumber']"
-                    [label]="'Task Number'"
-                  ></app-text-input>
-                  <app-text-input
-                    [formControl]="editActionItemForm.controls['actionItemNumber']"
-                    [label]="'Action Item Number'"
-                  ></app-text-input>
-                  <div class="form-group">
-                    <label for="aiCreatedBy">Delivery Manager</label>
-                    <select
-                      class="form-control"
-                      formControlName="aiCreatedBy">
-                      <option value="0">Select none</option>
-                      <option *ngFor="let employee of employees" value="{{employee.id}}">{{employee.firstName}} {{employee.lastName}}</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </tab>
-            <tab heading="Status">
-              <div class="card">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="dateStarted">Date Started</label>
-                    <input class="form-control" formControlName="dateStarted" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" placeholder="Date Started">
-                    <owl-date-time #dt [hour12Timer]="true"></owl-date-time>
-                  </div>
-                  <div class="form-group">
-                    <label for="dateResolved">Date Resolved</label>
-                    <input class="form-control" formControlName="dateResolved" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Resolved">
-                    <owl-date-time #dt2></owl-date-time>
-                  </div>
-                  <div class="form-group">
-                    <label for="mapStatus">Map Status</label>
-                    <select class="form-control" formControlName="mapStatus">
-                      <option value="completed">Completed</option>
-                      <option value="open">Open</option>
-                      <option value="pending">Pending</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </tab>
-          </tabset>
-        </form>
-      </div>
+      </form>
     </div>
   </div>
+</div>
   <!-- <div class="row mt-4">
     <p>Form value: {{ editActionItemForm.value | json }}</p>
     <p>Form status: {{ editActionItemForm.status | json }}</p>

@@ -9,8 +9,11 @@
         </ul>
     </div>
     <div class="card-body p-1">
-        <h6 class="card-title text-center-mb-1"><i class="fa fa-user mr-2"></i>
+        <h6 class="card-title text-center-mb-1" *ngIf="employee.firstName"><i class="fa fa-user mr-2"></i>
             {{employee.firstName}} {{employee.lastName}} 
+        </h6>
+        <h6 class="card-title text-center-mb-1" *ngIf="!employee.firstName"><i class="fa fa-user mr-2"></i>
+            {{employee.username | titlecase}} 
         </h6>
         <p class="card-text text-muted text-center">{{employee.position}}</p>
     </div>

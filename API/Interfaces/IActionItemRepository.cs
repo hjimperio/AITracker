@@ -12,6 +12,7 @@ namespace API.Interfaces
         void Update(ActionItem actionItem);
         void Delete(ActionItem actionItem);
         Task<PagedList<ActionItemDto>> GetActionItems(ActionItemParams actionItemParams);
+        Task<IEnumerable<ActionItemDto>> GetActionItemsList();
         Task<ActionItemDto> GetActionItem(int actionItemId);
         Task<ActionItem> GetActionItemById(int actionItemId);
         Task<ActionItem> GetExistingActionItem(string actionItem);

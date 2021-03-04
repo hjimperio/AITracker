@@ -30,8 +30,7 @@ export class ActionItemEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.employeeService.getEmployeeList()
-    .subscribe(response => this.employees = response);
+    this.employeeService.getEmployeeList().subscribe(response => this.employees = response);
     this.loadActionItem();
   }
 

@@ -13,7 +13,10 @@ export class ActionItemParams {
     workOrderTypeRequest = "";
     metSLO = "";
     metElapsedTarget = "";
-
+    dateFromStarted = "";
+    dateToStarted = ""
+    dateFromResolved = "";
+    dateToResolved = "";
 
     constructor(user?: User) {
         //this.gender = user.gender === 'female' ? 'male' : 'female';

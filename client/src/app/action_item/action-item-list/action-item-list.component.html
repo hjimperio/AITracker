@@ -2,9 +2,10 @@
   <h2 class="mb-6">ACTION ITEMS</h2>
   <hr>
   <div class="row mb-3">
-    <div class="col-md-12">
-      <button routerLink='/action-item/add' class="btn btn-success mr-3">Add Action Item</button>
-      <button type="button" class="btn btn-primary" (click)="openModal(template)">Apply Filters</button>
+    <div class="col-md-12 mb-3">
+        <button routerLink='/action-item/add' class="btn btn-success mr-3">Add Action Item</button>
+        <button type="button" class="btn btn-primary mr-3" (click)="openModal(template)">Filter Lists</button>
+        <button type="button" class="btn btn-warning">Generate Report</button>
     </div>
   </div>
   <div class="row">
@@ -63,72 +64,94 @@
 
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Add Filters</h4>
+    <h4 class="modal-title pull-left">Filter Lists</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <form #form="ngForm" (ngSubmit)="loadActionItems()" id="form" autocomplete="off">
-      <div class="form-group">
-        <label>Internal Email Subject:</label>
-        <input type="text" class="form-control" name="internalEmailSubject" 
-            [(ngModel)]="actionItemParams.internalEmailSubject">
+      <div class="form-row mb-3">
+        <div class="col-md-6">
+          <label>Internal Email Subject:</label>
+          <input type="text" class="form-control" name="internalEmailSubject" 
+              [(ngModel)]="actionItemParams.internalEmailSubject">
+        </div>
+        <div class="col-md-6">
+          <label>External Email Subject:</label>
+          <input type="text" class="form-control" name="externalEmailSubject" 
+              [(ngModel)]="actionItemParams.externalEmailSubject">
+        </div>
       </div>
-      <div class="form-group">
-        <label>External Email Subject:</label>
-        <input type="text" class="form-control" name="externalEmailSubject" 
-            [(ngModel)]="actionItemParams.externalEmailSubject">
+      <div class="form-row mb-3">
+        <div class="col-md-6">
+          <label>Action Item Number:</label>
+          <input type="text" class="form-control" name="actionItemNumber" 
+              [(ngModel)]="actionItemParams.actionItemNumber">
+        </div>
+        <div class="col-md-6">
+          <label>Task Number:</label>
+          <input type="text" class="form-control" name="taskNumber" 
+              [(ngModel)]="actionItemParams.taskNumber">
+        </div>
       </div>
-      <div class="form-group">
-        <label>Action Item Number:</label>
-        <input type="text" class="form-control" name="actionItemNumber" 
-            [(ngModel)]="actionItemParams.actionItemNumber">
+      <div class="form-row mb-3">
+        <div class="col-md-6">
+          <label>Work Order Type Request:</label>
+          <select [(ngModel)]="actionItemParams.workOrderTypeRequest" name="workOrderTypeRequest" class="form-control">
+            <option value="" disabled selected>Select option</option>
+            <option value="Change Request">Change Request</option>
+            <option value="Clone">Clone</option>
+            <option value="Base">Base</option>
+            <option value="Complex">Complex</option>
+            <option value="FS Complex">FS Complex</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label>Order By:</label>
+          <select [(ngModel)]="actionItemParams.orderBy" name="orderBy" class="form-control">
+            <option value="" disabled selected>Select option</option>
+            <option value="created">Date Created</option>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Task Number:</label>
-        <input type="text" class="form-control" name="taskNumber" 
-            [(ngModel)]="actionItemParams.taskNumber">
+      <div class="form-row mb-3">
+        <div class="col-md-6">
+          <label>Met SLO?:</label>
+          <select [(ngModel)]="actionItemParams.metSLO" name="metSLO" class="form-control">
+            <option value="" disabled selected>Select option</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label>Met Elapsed Target?:</label>
+          <select [(ngModel)]="actionItemParams.metElapsedTarget" name="metElapsedTarget" class="form-control">
+            <option value="" disabled selected>Select option</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Work Order Type Request:</label>
-        <select [(ngModel)]="actionItemParams.workOrderTypeRequest" name="workOrderTypeRequest" class="form-control">
-          <option value="" disabled selected>Select option</option>
-          <option value="Change Request">Change Request</option>
-          <option value="Clone">Clone</option>
-          <option value="Base">Base</option>
-          <option value="Complex">Complex</option>
-          <option value="FS Complex">FS Complex</option>
-        </select>
+      <div class="form-row mb-3">
+        <div class="col-md-12">
+          <label>Date Started:</label>
+          <input class="form-control" [(ngModel)]="myTime" name="myTime" [selectMode]="'range'" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" placeholder="Date Started">
+          <owl-date-time #dt [hour12Timer]="true"></owl-date-time>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Order By:</label>
-        <select [(ngModel)]="actionItemParams.orderBy" name="orderBy" class="form-control">
-          <option value="" disabled selected>Select option</option>
-          <option value="created">Date Created</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Met SLO?:</label>
-        <select [(ngModel)]="actionItemParams.metSLO" name="metSLO" class="form-control">
-          <option value="" disabled selected>Select option</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Met Elapsed Target?:</label>
-        <select [(ngModel)]="actionItemParams.metElapsedTarget" name="metElapsedTarget" class="form-control">
-          <option value="" disabled selected>Select option</option>
-          <option value="yes">Yes</option>
-          <option value="no">No</option>
-        </select>
+      <div class="form-row mb-3">
+        <div class="col-md-12">
+          <label>Date Resolved:</label>
+          <input class="form-control" [(ngModel)]="myTime2" name="myTime2" [selectMode]="'range'" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Resolve">
+          <owl-date-time #dt2 [hour12Timer]="true"></owl-date-time>
+        </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" form="form" type="submit" [disabled]="!form.dirty">Apply Filters</button>
-    <button (click)="resetFilters()" class="btn btn-warning ml-1" type="submit">Reset Filters</button>
+    <button (click)="resetFilters()" class="btn btn-warning ml-1">Reset Filters</button>
     <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Close</button>
   </div>
 </ng-template>

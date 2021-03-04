@@ -46,7 +46,7 @@ export class ActionItemAddComponent implements OnInit {
       actionItemNumber: ['', Validators.nullValidator],
       aiCreatedBy: ['0', Validators.nullValidator],
       mapStatus: ['', Validators.required],
-      dateStarted: ['', Validators.required],
+      dateStarted: [new Date(), Validators.required],
       dateResolved: [new Date(), Validators.nullValidator]
     });
   }

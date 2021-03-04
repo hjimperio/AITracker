@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -63,12 +64,20 @@ namespace API.Data
                 query = (actionItemParams.MetElapsedTarget.ToLower() == "yes") 
                 ? query.Where(a => a.MetElapsedTarget)
                 : query.Where(a => !a.MetElapsedTarget);
-            
-            // query = query.Where( u => u.DateStarted >= actionItemParams.DateStartedFrom && 
-            //     u.DateStarted <= actionItemParams.DateStartedTo);
 
-            // query = query.Where( u => u.DateResolved >= actionItemParams.DateResolvedFrom && 
-            //     u.DateStarted <= actionItemParams.DateStartedTo);
+            if(actionItemParams.DateStartedFrom != null && actionItemParams.DateStartedTo != null) {
+                var dateStartedFrom = Convert.ToDateTime(actionItemParams.DateStartedFrom, CultureInfo.InvariantCulture).ToLocalTime();
+                var dateStartedTo = Convert.ToDateTime(actionItemParams.DateStartedTo, CultureInfo.InvariantCulture).ToLocalTime();
+
+                query = query.Where( u => u.DateStarted >= dateStartedFrom && u.DateStarted <= dateStartedTo);
+            }
+            
+            if(actionItemParams.DateResolvedFrom != null && actionItemParams.DateResolvedTo != null) {
+                var dateResolvedFrom = DateTime.Parse(actionItemParams.DateResolvedFrom).ToLocalTime();
+                var dateResolvedTo = DateTime.Parse(actionItemParams.DateResolvedTo).ToLocalTime();
+
+                query = query.Where( u => u.DateResolved >= dateResolvedFrom && u.DateStarted <= dateResolvedTo);
+            }
 
             query = actionItemParams.OrderBy switch
             {
@@ -93,6 +102,13 @@ namespace API.Data
 
             return await _context.ActionItems
                 .FirstOrDefaultAsync(x => x.ActionItemNumber == actionItemNumber);
+        }
+
+        public async Task<IEnumerable<ActionItemDto>> GetActionItemsList()
+        {
+            return await _context.ActionItems
+                .ProjectTo<ActionItemDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         public async Task<bool> SaveAllAsync()

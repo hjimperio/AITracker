@@ -7,10 +7,10 @@
                     <a class="nav-link" routerLink="/dashboard" routerLinkActive='active'>Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/employees" routerLinkActive='active'>Employees</a>
+                    <a class="nav-link" routerLink="/action-items" routerLinkActive='active'>Action Items</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/action-items" routerLinkActive='active'>Action Items</a>
+                    <a class="nav-link" routerLink="/employees" routerLinkActive='active'>Employees</a>
                 </li>
             </ng-container>
             <!-- <li class="nav-item">
@@ -19,7 +19,7 @@
         </ul>
 
         <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-            <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.firstName | titlecase}}</a>
+            <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.firstName || user.username | titlecase}}</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
                 <div class="dropdown-item" routerLink="/employee/edit">Edit Profile</div>
                 <div class="dropdown-divider"></div>

@@ -12,7 +12,6 @@ import { UserParams } from 'src/app/_models/userParams';
 export class ActionItemDetailComponent implements OnInit {
   title: string;
   actionItem: ActionItem;
-  employees: Employee[];
   feedback: string;
   userParams: UserParams;
 

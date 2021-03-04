@@ -30,6 +30,9 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_LOCALE } from '@danielmoncada/angular-datetime-picker';
 import { DateTimeInputComponent } from './_forms/date-time-input/date-time-input.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { BarchartComponent } from './dashboard/barchart/barchart.component';
+import { TotalCardsComponent } from './dashboard/total-cards/total-cards.component';
+import { TablesComponent } from './dashboard/tables/tables.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DateInputComponent,
     TextInputComponent,
     DateTimeInputComponent,
-    DashboardComponent
+    DashboardComponent,
+    BarchartComponent,
+    TotalCardsComponent,
+    TablesComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +75,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    {provide: OWL_DATE_TIME_LOCALE, useValue: 'en-PH'}
+    {provide: OWL_DATE_TIME_LOCALE, useValue: 'en-PH'},
   ],
   bootstrap: [AppComponent],
   entryComponents: [ActionItemDetailComponent]

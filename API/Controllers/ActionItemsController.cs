@@ -174,6 +174,14 @@ namespace API.Controllers
             return Ok(elapsedDays);
         }
 
+        [HttpGet("list")]
+        public async Task<ActionResult> GetActionItemsList()
+        {
+            var actionItems = await _actionItemRepository.GetActionItemsList();
+
+            return Ok(actionItems);
+        }
+
         private int GetDays(string workOrder, string predicate)
         {
             var days = 0;

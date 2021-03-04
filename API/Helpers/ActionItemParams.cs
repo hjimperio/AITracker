@@ -12,12 +12,12 @@ namespace API.Helpers
         public string OrderBy { get; set; } = "created";
         public string WorkOrderTypeRequest { get; set; }
         public string MapStatus { get; set; } = "all";
-        // public DateTime DateStartedFrom { get; set; } = DateTime.Now;
-        // public DateTime DateStartedTo { get; set; } = DateTime.Now;
-        // public DateTime DateResolvedFrom { get; set; } = DateTime.Now;
-        // public DateTime DateResolvedTo { get; set; } = DateTime.Now;
         public int AICreatedBy { get; set; }
         public string MetSLO { get; set; }
         public string MetElapsedTarget { get; set; }
+        public string DateStartedFrom { get; set; }
+        public string DateStartedTo { get; set; }
+        public string DateResolvedFrom { get; set; }
+        public string DateResolvedTo { get; set; }
     }
 }
