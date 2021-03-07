@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit {
   requestNumbers: number = 0;
   actionItemsOpen: ActionItem[] = [];
   actionItemsElapsed: ActionItem[] = [];
+  chartData: any[] = [];
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -22,10 +23,42 @@ export class DashboardComponent implements OnInit {
   getActionItems() {
     this.dashboardService.getActionItems().subscribe(response => {
       this.actionItemsOpen = response.filter(a => a.mapStatus === 'open');
-      this.actionItemsElapsed = response.filter(a => !a.metElapsedTarget);
-      this.elapsedNumbers = response.filter(a => a.mapStatus === 'open').length;
-      this.requestNumbers = response.filter(a => !a.metElapsedTarget).length;
+      this.actionItemsElapsed = response.filter(a => !a.metElapsedTarget && a.mapStatus == 'completed');
+      this.elapsedNumbers = response.filter(a => !a.metElapsedTarget && a.mapStatus == 'completed').length;
+      this.requestNumbers = response.filter(a => a.mapStatus === 'open' ).length;
+      const changeRequestNumber = response.filter(r => r.workOrderTypeRequest === 'Change Request').map(values => {
+        return values.elapsedDays;
+      });
+      const cloneNumber = response.filter(r => r.workOrderTypeRequest === 'Clone').map(values => {
+        return values.elapsedDays;
+      });
+      const baseNumber = response.filter(r => r.workOrderTypeRequest === 'Base').map(values => {
+        return values.elapsedDays;
+      });
+      
+      this.chartData = [
+        {
+          "name": "Change Request",
+          "value": this.getAverages(changeRequestNumber)
+        },
+        {
+          "name": "Clone",
+          "value": this.getAverages(cloneNumber)
+        },
+        {
+          "name": "Base",
+          "value": this.getAverages(baseNumber)
+        }
+      ];
     });
+  }
+
+  getAverages(data: any[]) {
+    const average = data.reduce(function (sum, value) {
+        return sum + value;
+    }, 0) / data.length;
+
+    return average;
   }
 
 }

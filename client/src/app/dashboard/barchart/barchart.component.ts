@@ -9,10 +9,10 @@ import { ActionItemService } from 'src/app/_services/action-items.service';
   styleUrls: ['./barchart.component.css']
 })
 export class BarchartComponent implements OnInit {
+  @Input() chartData: any[] = []; // Data
 
   // Chart options
   dateToday: Date = new Date();
-  chartData: any[]; // Data
   view: any[] = [1000, 400];
   showXAxis = true;
   showYAxis = true;
@@ -26,34 +26,8 @@ export class BarchartComponent implements OnInit {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA', '#ABBBBB']
   };
 
-  // Data
-  changeRequestNumber: number = 0;
-  cloneNumber: number = 0;
-  baseNumber: number = 0;
-  complexNumber: number = 0;
-  fsComplexNumber: number = 0;
-
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.getActionItemNumbers();
-  }
-
-  getActionItemNumbers() {
-    this.chartData = [
-      {
-        "name": "Change Request",
-        "value": this.changeRequestNumber
-      },
-      {
-        "name": "Clone",
-        "value": this.cloneNumber
-      },
-      {
-        "name": "Base",
-        "value": this.baseNumber
-      }
-    ];
   }
 }

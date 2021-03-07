@@ -33,6 +33,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { BarchartComponent } from './dashboard/barchart/barchart.component';
 import { TotalCardsComponent } from './dashboard/total-cards/total-cards.component';
 import { TablesComponent } from './dashboard/tables/tables.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
 
 @NgModule({
   declarations: [
@@ -57,7 +61,11 @@ import { TablesComponent } from './dashboard/tables/tables.component';
     DashboardComponent,
     BarchartComponent,
     TotalCardsComponent,
-    TablesComponent
+    TablesComponent,
+    AdminPanelComponent,
+    UserManagementComponent,
+    RolesModalComponent,
+    HasRoleDirective
   ],
   imports: [
     BrowserModule,
