@@ -175,9 +175,9 @@ namespace API.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<ActionResult> GetActionItemsList()
+        public async Task<ActionResult> GetActionItemsList([FromQuery] string dateToday)
         {
-            var actionItems = await _actionItemRepository.GetActionItemsList();
+            var actionItems = await _actionItemRepository.GetActionItemsList(dateToday);
 
             return Ok(actionItems);
         }

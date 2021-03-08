@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ActionItem } from 'src/app/_models/actionItem';
 import { ActionItemParams } from 'src/app/_models/actionItemParams';
 import { Pagination } from 'src/app/_models/pagination';
@@ -12,7 +12,7 @@ import { DashboardService } from 'src/app/_services/dashboard.service';
 })
 export class TablesComponent implements OnInit {
   @Input() title: string = "";
-  @Input() actionItems: ActionItem[] = [];
+  @Input() actionItems = new EventEmitter<ActionItem[]>();
   pagination: Pagination;
   actionItemParams: ActionItemParams;
 

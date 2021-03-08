@@ -24,8 +24,8 @@ export class DashboardService {
     return this.http.get<Employee[]>(this.baseUrl + 'users/list');
   }
 
-  getActionItems() {
-    return this.http.get<ActionItem[]>(this.baseUrl + 'actionitems/list');
+  getActionItems(date: string) {
+    return this.http.get<ActionItem[]>(this.baseUrl + 'actionitems/list' + "?dateToday=" + date);
   }
 
 }

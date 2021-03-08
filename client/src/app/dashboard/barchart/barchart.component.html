@@ -4,6 +4,7 @@
         <div class="card-body">
           <h2 class="mb-3">{{dateToday | date: 'MMMM'}}</h2>
           <ngx-charts-bar-vertical
+              [roundEdges]="false"
               [view]="view"
               [scheme]="colorScheme"
               [results]="chartData"

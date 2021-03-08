@@ -13,6 +13,12 @@ export class DashboardComponent implements OnInit {
   actionItemsOpen: ActionItem[] = [];
   actionItemsElapsed: ActionItem[] = [];
   chartData: any[] = [];
+  date: Date = new Date();
+
+  //
+  changeRequestNumber: number = 0;
+  cloneNumber: number = 0;
+  baseNumber: number = 0;
 
   constructor(private dashboardService: DashboardService) {}
 
@@ -21,42 +27,45 @@ export class DashboardComponent implements OnInit {
   }
 
   getActionItems() {
-    this.dashboardService.getActionItems().subscribe(response => {
+    const date = this.date.toLocaleString();
+    console.log(date);
+    this.dashboardService.getActionItems(date).subscribe(response => {
       this.actionItemsOpen = response.filter(a => a.mapStatus === 'open');
       this.actionItemsElapsed = response.filter(a => !a.metElapsedTarget && a.mapStatus == 'completed');
       this.elapsedNumbers = response.filter(a => !a.metElapsedTarget && a.mapStatus == 'completed').length;
       this.requestNumbers = response.filter(a => a.mapStatus === 'open' ).length;
-      const changeRequestNumber = response.filter(r => r.workOrderTypeRequest === 'Change Request').map(values => {
-        return values.elapsedDays;
-      });
-      const cloneNumber = response.filter(r => r.workOrderTypeRequest === 'Clone').map(values => {
-        return values.elapsedDays;
-      });
-      const baseNumber = response.filter(r => r.workOrderTypeRequest === 'Base').map(values => {
-        return values.elapsedDays;
-      });
-      
+      this.changeRequestNumber = this.getAverages(response, 'Change Request');
+      this.cloneNumber = this.getAverages(response, 'Clone');
+      this.baseNumber = this.getAverages(response, 'Base');
+
       this.chartData = [
         {
           "name": "Change Request",
-          "value": this.getAverages(changeRequestNumber)
+          "value": this.changeRequestNumber
         },
         {
           "name": "Clone",
-          "value": this.getAverages(cloneNumber)
+          "value": this.cloneNumber
         },
         {
           "name": "Base",
-          "value": this.getAverages(baseNumber)
+          "value": this.baseNumber
         }
       ];
+      
     });
   }
 
-  getAverages(data: any[]) {
-    const average = data.reduce(function (sum, value) {
+  getAverages(actionItem: ActionItem[], predicate: string) {
+    var data = actionItem.filter(r => r.workOrderTypeRequest === predicate);
+    var average = 0;
+
+    if(data.length != 0) {
+      var total = data.map(values => values.elapsedDays);
+      average = total.reduce((sum, value) => {
         return sum + value;
-    }, 0) / data.length;
+      }, 0) / data.length;
+    }
 
     return average;
   }

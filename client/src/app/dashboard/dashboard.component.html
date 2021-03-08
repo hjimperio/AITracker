@@ -1,7 +1,20 @@
 <div class="container">
     <h2>DASHBOARD</h2>
     <hr>
-
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <form #form="ngForm" (ngSubmit)="getActionItems()" id="form" autocomplete="off">
+          <div class="form-row">
+            <div class="col-md-6">
+              <input type="month" class="form-control" [(ngModel)]="date" name="date">
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-primary" type="submit" form="form" [disabled]="!form.dirty">Change Date</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <div class="row">
       <app-total-cards class="col-xl-6 col-md-6 mb-4" [title]="'Elapsed Tasks'" [totalItem]="elapsedNumbers"></app-total-cards>
       <app-total-cards class="col-xl-6 col-md-6 mb-4" [title]="'Open Items'" [totalItem]="requestNumbers"></app-total-cards>
@@ -12,5 +25,5 @@
       <app-tables class="col-xl-6 col-md-6 mb-4" [title]="'Open Items'" [actionItems]="actionItemsOpen"></app-tables>
     </div>
 
-    <app-barchart [chartData]="chartData"></app-barchart>
+    <app-barchart [chartData]="chartData" [dateToday]="date"></app-barchart>
 </div>

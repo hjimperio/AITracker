@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { ActionItem } from 'src/app/_models/actionItem';
 import { ActionItemParams } from 'src/app/_models/actionItemParams';
 import { ActionItemService } from 'src/app/_services/action-items.service';
@@ -9,10 +9,10 @@ import { ActionItemService } from 'src/app/_services/action-items.service';
   styleUrls: ['./barchart.component.css']
 })
 export class BarchartComponent implements OnInit {
-  @Input() chartData: any[] = []; // Data
+  @Input() chartData = new EventEmitter<any[]>(); // Data
+  @Input() dateToday: Date = new Date();
 
   // Chart options
-  dateToday: Date = new Date();
   view: any[] = [1000, 400];
   showXAxis = true;
   showYAxis = true;

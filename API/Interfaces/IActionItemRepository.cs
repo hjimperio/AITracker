@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -12,7 +13,7 @@ namespace API.Interfaces
         void Update(ActionItem actionItem);
         void Delete(ActionItem actionItem);
         Task<PagedList<ActionItemDto>> GetActionItems(ActionItemParams actionItemParams);
-        Task<IEnumerable<ActionItemDto>> GetActionItemsList();
+        Task<IEnumerable<ActionItemDto>> GetActionItemsList(string dateToday);
         Task<ActionItemDto> GetActionItem(int actionItemId);
         Task<ActionItem> GetActionItemById(int actionItemId);
         Task<ActionItem> GetExistingActionItem(string actionItem);

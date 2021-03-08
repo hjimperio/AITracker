@@ -104,10 +104,17 @@ namespace API.Data
                 .FirstOrDefaultAsync(x => x.ActionItemNumber == actionItemNumber);
         }
 
-        public async Task<IEnumerable<ActionItemDto>> GetActionItemsList()
+        public async Task<IEnumerable<ActionItemDto>> GetActionItemsList(string dateToday)
         {
-            return await _context.ActionItems
-                .ProjectTo<ActionItemDto>(_mapper.ConfigurationProvider)
+            var query = _context.ActionItems.AsQueryable();
+
+            if (dateToday != null) {
+                var date = Convert.ToDateTime(dateToday, CultureInfo.InvariantCulture).ToLocalTime();
+                query = query.Where(x => x.DateStarted.Date.Month == date.Date.Month);
+                query = query.Where(x => x.DateStarted.Date.Year == date.Date.Year);
+            }
+
+            return await query.ProjectTo<ActionItemDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
 
