@@ -108,6 +108,13 @@
             </select>
           </div>
         </div>
+        <div class="form-row mb-3">
+          <div class="col-md-12">
+            <app-text-input
+            [formControl]="editActionItemForm.controls['reason']"
+            [label]="'Reason if elapsed'"></app-text-input>
+          </div>
+        </div>
         <button
           [disabled]="(!editActionItemForm.valid && !editActionItemForm.dirty) || 
             (editActionItemForm.valid && !editActionItemForm.dirty)"

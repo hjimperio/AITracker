@@ -54,6 +54,14 @@
               <th>Map Status</th>
               <td>{{actionItem.mapStatus | titlecase}}</td>
             </tr>
+            <tr>
+              <th>Created By</th>
+              <td>{{actionItem.createdBy}}</td>
+            </tr>
+            <tr>
+              <th>Date Created</th>
+              <td>{{actionItem.dateCreated | date: 'MMM d, y, h:mm a'}}</td>
+            </tr>
           </tbody>
         </table>
       </tab>

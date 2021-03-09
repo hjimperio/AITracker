@@ -26,6 +26,7 @@ namespace API.Data
         public async Task<ActionItemDto> GetActionItem(int id)
         {
             return await _context.ActionItems
+                .Include(x => x.AppUser)
                 .Where(x => x.Id == id)
                 .ProjectTo<ActionItemDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
@@ -33,7 +34,7 @@ namespace API.Data
 
         public async Task<PagedList<ActionItemDto>> GetActionItems(ActionItemParams actionItemParams)
         {
-            var query = _context.ActionItems.AsQueryable();
+            var query = _context.ActionItems.Include(x => x.AppUser).AsQueryable();
             
             //query = query.Where(u => u.UserName != userParams.CurrentUsername);
 
@@ -92,7 +93,9 @@ namespace API.Data
 
         public async Task<ActionItem> GetActionItemById(int actionItemId)
         {
-            return await _context.ActionItems.SingleOrDefaultAsync(x => x.Id == actionItemId);
+            return await _context.ActionItems
+                .Include(x => x.AppUser)
+                .SingleOrDefaultAsync(x => x.Id == actionItemId);
         }
 
         public async Task<ActionItem> GetExistingActionItem(string actionItemNumber)
@@ -106,7 +109,7 @@ namespace API.Data
 
         public async Task<IEnumerable<ActionItemDto>> GetActionItemsList(string dateToday)
         {
-            var query = _context.ActionItems.AsQueryable();
+            var query = _context.ActionItems.Include(x => x.AppUser).AsQueryable();
 
             if (dateToday != null) {
                 var date = Convert.ToDateTime(dateToday, CultureInfo.InvariantCulture).ToLocalTime();

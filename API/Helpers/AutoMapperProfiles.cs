@@ -15,7 +15,8 @@ namespace API.Helpers
             CreateMap<ActionItemAddDto, ActionItem>();
             CreateMap<ActionItemUpdateDto, ActionItem>();
             CreateMap<ActionItem, ActionItemDto>()
-                .ForMember(dest => dest.ElapsedDays, opt => opt.MapFrom(a => Math.Round(a.ElapsedDays, 3)));
+                .ForMember(dest => dest.ElapsedDays, opt => opt.MapFrom(a => Math.Round(a.ElapsedDays, 3)))
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => $"{src.AppUser.FirstName} {src.AppUser.LastName}"));
         }
     }
 }

@@ -48,7 +48,8 @@ export class ActionItemEditComponent implements OnInit {
       aiCreatedBy: ['', Validators.nullValidator],
       dateStarted: [new Date(), Validators.required],
       dateResolved: [new Date(), Validators.nullValidator],
-      mapStatus: ['', Validators.required]
+      mapStatus: ['', Validators.required],
+      reason: ['', Validators.nullValidator]
     });
   }
 
