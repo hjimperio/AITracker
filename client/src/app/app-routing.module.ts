@@ -4,6 +4,7 @@ import { ActionItemAddComponent } from './action_item/action-item-add/action-ite
 import { ActionItemDetailComponent } from './action_item/action-item-detail/action-item-detail.component';
 import { ActionItemEditComponent } from './action_item/action-item-edit/action-item-edit.component';
 import { ActionItemListComponent } from './action_item/action-item-list/action-item-list.component';
+import { ReportComponent } from './action_item/report/report.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EmployeeAddComponent } from './employees/employee-add/employee-add.component';
@@ -34,6 +35,7 @@ const routes: Routes = [
       {path: 'action-items', component: ActionItemListComponent},
       {path: 'action-items/:id', component: ActionItemDetailComponent},
       {path: 'action-item/add', component: ActionItemAddComponent},
+      {path: 'action-item/report', component: ReportComponent},
       {path: 'action-item/edit/:id', component: ActionItemEditComponent}
     ]
   },

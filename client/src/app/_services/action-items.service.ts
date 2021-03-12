@@ -5,6 +5,7 @@ import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ActionItem } from '../_models/actionItem';
 import { ActionItemParams } from '../_models/actionItemParams';
+import { ActionItemReportParams } from '../_models/actionItemReportParams';
 import { PaginatedResult } from '../_models/pagination';
 import { User } from '../_models/user';
 import { AccountService } from './account.service';
@@ -80,6 +81,21 @@ export class ActionItemService {
     // }
     
     return this.http.get<ActionItem>(this.baseUrl + 'actionitems/' + actionItemId);
+  }
+
+  generateReport(actionItemReportParams: ActionItemReportParams) {
+    console.log(actionItemReportParams);
+    let params = new HttpParams();
+
+    params = params.append('orderBy', actionItemReportParams.orderBy);
+    params = params.append('mapStatus', actionItemReportParams.mapStatus);
+    params = params.append('workOrderTypeRequest', actionItemReportParams.workOrderTypeRequest);
+    params = params.append('metSLO', actionItemReportParams.metSLO);
+    params = params.append('metElapsedTarget', actionItemReportParams.metElapsedTarget);
+    params = params.append('dateFrom', actionItemReportParams.dateFrom);
+    params = params.append('dateTo', actionItemReportParams.dateTo);
+
+    return this.http.get(this.baseUrl + 'actionitems/reports', { responseType: 'blob', params });
   }
 
   addActionItem(model: any) {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -8,6 +9,8 @@ using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
+using ClosedXML.Excel;
+using ClosedXML.Report;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -180,6 +183,85 @@ namespace API.Controllers
             var actionItems = await _actionItemRepository.GetActionItemsList(dateToday);
 
             return Ok(actionItems);
+        }
+
+        [HttpGet("reports")]
+        public async Task<ActionResult> GenerateReport([FromQuery] ActionItemReportParams actionItemReportParams)
+        {
+            var actionItems = await _actionItemRepository.GetActionItemsReport(actionItemReportParams);
+
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Action Items");
+                var currentRow = 1;
+
+                #region Header
+                worksheet.Cell(currentRow, 1).Value = "Region";
+                worksheet.Cell(currentRow, 2).Value = "Division";
+                worksheet.Cell(currentRow, 3).Value = "Internal Email Subject";
+                worksheet.Cell(currentRow, 4).Value = "External Email Subject";
+                worksheet.Cell(currentRow, 5).Value = "WOTR";
+                worksheet.Cell(currentRow, 6).Value = "Task Number";
+                worksheet.Cell(currentRow, 7).Value = "Action Item";
+                worksheet.Cell(currentRow, 8).Value = "Date Started";
+                worksheet.Cell(currentRow, 9).Value = "Date Resolved";
+                worksheet.Cell(currentRow, 10).Value = "Map Status";
+                worksheet.Cell(currentRow, 11).Value = "SCJON Due Date";
+                worksheet.Cell(currentRow, 12).Value = "SLO Days";
+                worksheet.Cell(currentRow, 13).Value = "Met SLO?";
+                worksheet.Cell(currentRow, 14).Value = "Target Elapsed Date";
+                worksheet.Cell(currentRow, 15).Value = "Target Elapsed Days";
+                worksheet.Cell(currentRow, 16).Value = "Met Elapsed Target?";
+                worksheet.Cell(currentRow, 17).Value = "Elapsed Days";
+                worksheet.Cell(currentRow, 18).Value = "Created By";
+                #endregion
+
+                #region Body
+                foreach (var actionItem in actionItems)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = actionItem.Region;
+                    worksheet.Cell(currentRow, 2).Value = actionItem.Division;
+                    worksheet.Cell(currentRow, 3).Value = actionItem.InternalEmailSubject;
+                    worksheet.Cell(currentRow, 4).Value = actionItem.ExternalEmailSubject;
+                    worksheet.Cell(currentRow, 5).Value = actionItem.WorkOrderTypeRequest;
+                    worksheet.Cell(currentRow, 6).Value = actionItem.TaskNumber;
+                    worksheet.Cell(currentRow, 7).Value = actionItem.ActionItemNumber;
+                    worksheet.Cell(currentRow, 8).Value = actionItem.DateStarted.ToLocalTime();
+                    worksheet.Cell(currentRow, 9).Value = actionItem.DateResolved.ToLocalTime();
+                    worksheet.Cell(currentRow, 10).Value = actionItem.MapStatus;
+                    worksheet.Cell(currentRow, 11).Value = actionItem.DueDate.ToLocalTime();
+                    worksheet.Cell(currentRow, 12).Value = actionItem.SLODays;
+                    worksheet.Cell(currentRow, 13).Value = actionItem.MetSLO ? "Y" : "N";
+                    worksheet.Cell(currentRow, 14).Value = actionItem.ElapsedDueDate.ToLocalTime();
+                    worksheet.Cell(currentRow, 15).Value = actionItem.TargetElapsedDays;
+                    worksheet.Cell(currentRow, 16).Value = actionItem.MetElapsedTarget ? "Y" : "N";
+                    worksheet.Cell(currentRow, 17).Value = actionItem.ElapsedDays;
+                    worksheet.Cell(currentRow, 18).Value = actionItem.CreatedBy;
+                }
+                #endregion
+
+                //////////////////////////////////////////////////////////////////
+                // Do some formatting
+                worksheet.Columns("A:R").Width = 20;
+                var rngTitle = worksheet.Range("A1:R1");
+                rngTitle.Style.Font.Bold = true;
+                rngTitle.Style.Fill.BackgroundColor = XLColor.Cyan;
+
+                worksheet.Columns().AdjustToContents();
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "ActionItems.xlsx"
+                        );
+                }
+            }
         }
 
         private int GetDays(string workOrder, string predicate)

@@ -6,14 +6,19 @@
                 <table class="table table-responsive-sm table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Region</th>
+                            <th scope="col">Internal Email</th>
                             <th scope="col">Status</th>
                             <th scope="col">WOTR</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let actionItem of actionItems">
-                            <td scope="row">{{actionItem.region}}</td>
+                            <td scope="row">
+                                <a routerLink='/action-item/edit/{{actionItem.id}}'>
+                                    {{actionItem.internalEmailSubject}}
+                                </a>
+                            </td>
                             <td>{{actionItem.mapStatus | titlecase}}</td>
                             <td>{{actionItem.workOrderTypeRequest}}</td>
                         </tr>
@@ -44,8 +49,7 @@
                 <table class="table table-responsive-sm table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">Region</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Internal Email</th>
                             <th scope="col">WOTR</th>
                             <th scope="col">Date Started</th>
                             <th scope="col">Date Resolved</th>
@@ -53,8 +57,11 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let actionItem of actionItems">
-                            <td scope="row">{{actionItem.region}}</td>
-                            <td>{{actionItem.mapStatus | titlecase}}</td>
+                            <td scope="row">
+                                <a routerLink='/action-item/edit/{{actionItem.id}}'>
+                                    {{actionItem.internalEmailSubject}}
+                                </a>
+                            </td>
                             <td>{{actionItem.workOrderTypeRequest}}</td>
                             <td>{{actionItem.dateStarted | date: 'MMM d, y, h:mm a'}}</td>
                             <td>{{actionItem.dateResolved | date: 'MMM d, y, h:mm a'}}</td>

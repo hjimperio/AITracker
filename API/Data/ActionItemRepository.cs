@@ -74,8 +74,8 @@ namespace API.Data
             }
             
             if(actionItemParams.DateResolvedFrom != null && actionItemParams.DateResolvedTo != null) {
-                var dateResolvedFrom = DateTime.Parse(actionItemParams.DateResolvedFrom).ToLocalTime();
-                var dateResolvedTo = DateTime.Parse(actionItemParams.DateResolvedTo).ToLocalTime();
+                var dateResolvedFrom = Convert.ToDateTime(actionItemParams.DateResolvedFrom, CultureInfo.InvariantCulture).ToLocalTime();
+                var dateResolvedTo = Convert.ToDateTime(actionItemParams.DateResolvedTo, CultureInfo.InvariantCulture).ToLocalTime();
 
                 query = query.Where( u => u.DateResolved >= dateResolvedFrom && u.DateStarted <= dateResolvedTo);
             }
@@ -116,6 +116,40 @@ namespace API.Data
                 query = query.Where(x => x.DateStarted.Date.Month == date.Date.Month);
                 query = query.Where(x => x.DateStarted.Date.Year == date.Date.Year);
             }
+
+            return await query.ProjectTo<ActionItemDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ActionItemDto>> GetActionItemsReport(ActionItemReportParams actionItemReportParams)
+        {
+            var query = _context.ActionItems.Include(x => x.AppUser).AsQueryable();
+
+            if (actionItemReportParams.MapStatus != "all")
+                query = query.Where(a => a.MapStatus == actionItemReportParams.MapStatus);
+
+            if (actionItemReportParams.MetSLO != null)
+                query = (actionItemReportParams.MetSLO.ToLower() == "yes") 
+                ? query.Where(a => a.MetSLO)
+                : query.Where(a => !a.MetSLO);
+
+            if (actionItemReportParams.MetElapsedTarget != null)
+                query = (actionItemReportParams.MetElapsedTarget.ToLower() == "yes") 
+                ? query.Where(a => a.MetElapsedTarget)
+                : query.Where(a => !a.MetElapsedTarget);
+
+            if(actionItemReportParams.DateFrom != null && actionItemReportParams.DateTo != null) {
+                var dateFrom = Convert.ToDateTime(actionItemReportParams.DateFrom, CultureInfo.InvariantCulture).ToLocalTime();
+                var dateTo = Convert.ToDateTime(actionItemReportParams.DateTo, CultureInfo.InvariantCulture).ToLocalTime();
+
+                query = query.Where( u => u.DateStarted >= dateFrom && u.DateStarted <= dateTo);
+            }
+
+            query = actionItemReportParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(a => a.DateCreated),
+                _=> query.OrderByDescending(a => a.Id)
+            };
 
             return await query.ProjectTo<ActionItemDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();

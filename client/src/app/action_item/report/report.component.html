@@ -1,0 +1,63 @@
+<div class="container">
+  <h2 class="mb-6">GENERATE REPORT</h2>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <form #reportForm="ngForm" (ngSubmit)="generateReport()" id="reportForm" autocomplete="off">
+        <div class="form-row mb-3">
+          <div class="col-md-6">
+            <label>Work Order Type Request:</label>
+            <select [(ngModel)]="actionItemReportParams.workOrderTypeRequest" name="workOrderTypeRequest" class="form-control">
+              <option value="" disabled selected>Select option</option>
+              <option value="Change Request">Change Request</option>
+              <option value="Clone">Clone</option>
+              <option value="Base">Base</option>
+              <option value="Complex">Complex</option>
+              <option value="FS Complex">FS Complex</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label>Order By:</label>
+            <select [(ngModel)]="actionItemReportParams.orderBy" name="orderBy" class="form-control">
+              <option value="" disabled selected>Select option</option>
+              <option value="created">Date Created</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <div class="col-md-6">
+            <label>Met SLO?:</label>
+            <select [(ngModel)]="actionItemReportParams.metSLO" name="metSLO" class="form-control">
+              <option value="" disabled selected>Select option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label>Met Elapsed Target?:</label>
+            <select [(ngModel)]="actionItemReportParams.metElapsedTarget" name="metElapsedTarget" class="form-control">
+              <option value="" disabled selected>Select option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <div class="col-md-12">
+            <label>Date From:</label>
+            <input class="form-control" [(ngModel)]="dateFrom" name="dateFrom" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" placeholder="Date From" required>
+            <owl-date-time #dt [hour12Timer]="true"></owl-date-time>
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <div class="col-md-12">
+            <label>Date To:</label>
+            <input class="form-control" [(ngModel)]="dateTo" name="dateTo" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date To" required>
+            <owl-date-time #dt2 [hour12Timer]="true"></owl-date-time>
+          </div>
+        </div>
+        <button class="btn btn-success btn-block" form="reportForm" type="submit" [disabled]="!reportForm.dirty">Download Report</button>
+      </form>
+    </div>
+  </div>
+</div>
